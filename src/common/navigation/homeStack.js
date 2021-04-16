@@ -2,7 +2,7 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import HomeScreen from '../../screens/home/index';
-import ManageScreen from '../../screens/manage/index';
+import ManageScreen from '../../screens/notify/index';
 
 const homeStack = createStackNavigator();
 

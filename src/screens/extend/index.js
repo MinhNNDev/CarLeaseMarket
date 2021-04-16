@@ -1,16 +1,15 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {STYLE} from '../../utils/Theme';
+import { STYLE } from '../../utils/Theme';
 
-const Manage = () => {
+const Extend = () => {
   return (
     <View style={STYLE.container}>
-      <View>
-        <Text>Haha</Text>
-      </View>
+      <Text>Hihi</Text>
     </View>
   );
 };
-export default Manage;
+
+export default Extend;
 
 const styles = StyleSheet.create({});

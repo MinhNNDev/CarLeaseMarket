@@ -54,6 +54,13 @@ export const FONTS = {
 export const STYLE = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: COLORS.white,
+  },
+  flexScreen: {
+    flex: 1,
+  },
+  row: {
+    flexDirection: 'row',
   },
 });
 

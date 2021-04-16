@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 
-import HomeStackScreen from '../navigation/homeStack';
+import HomeStackScreen from './tabNavigation';
 
 const AppContainer = () => {
   return (
