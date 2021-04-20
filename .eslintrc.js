@@ -9,8 +9,8 @@ module.exports = {
       modules: true,
     },
   },
-  extends: ['eslint:recommended', 'plugin:react/recommended', 'airbnb-base'],
-  rules: {
-    'arrow-body-style': 'warn',
-  },
+  // extends: ['eslint:recommended', 'plugin:react/recommended', 'airbnb-base'],
+  // rules: {
+  //   'arrow-body-style': 'warn',
+  // },
 };

@@ -22,7 +22,7 @@ export const COLORS = {
   gray: '#939597', // ANTONE  17-5104 TCX Ultimate Gray
   lightGray: '#C7C7C7',
   lightGray2: '#F6F6F7',
-  darkgray: '#898C95',
+  darkgray: '#383838',
   cGray: '#ECECEC',
 
   transparent: 'transparent',
