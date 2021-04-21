@@ -62,6 +62,11 @@ export const STYLE = StyleSheet.create({
   row: {
     flexDirection: 'row',
   },
+  RowBetweenAlign: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
 });
 
 const appTheme = {COLORS, SIZES, FONTS, STYLE};

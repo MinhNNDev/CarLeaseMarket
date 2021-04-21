@@ -1,5 +1,4 @@
-
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -7,96 +6,36 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import {useSafeArea} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
-
+import {COLORS} from '../../utils/Theme';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-import {TOPNAVI_H, BANNER_H, COLORS} from '../utils/theme';
-
-const HeaderNavigation = (props) => {
-  const safeArea = useSafeArea();
-
-  const {title, scrollA} = props;
-  const isFloating = !!scrollA;
-  const [isTransparent, setTransparent] = useState(isFloating);
-
-  useEffect(() => {
-    if (!scrollA) {
-      return;
-    }
-    const listenerId = scrollA.addListener((a) => {
-      const topNaviOffset = BANNER_H - TOPNAVI_H - safeArea.top;
-      isTransparent !== a.value < topNaviOffset &&
-        setTransparent(!isTransparent);
-    });
-    return () => scrollA.removeListener(listenerId);
-  });
-
+const Header = props => {
   const navigation = useNavigation();
-
   return (
-    <>
-      {/* <StatusBar
-        barStyle={isTransparent ? 'light-content' : 'dark-content'}
-        backgroundColor="transparent"
-        translucent
-      /> */}
-      <View>
-        <View style={styles.container(safeArea, isFloating, isTransparent)}>
-          <View style={Styles.header}>
-            {props.backBtn && (
-              <TouchableOpacity
-                onPress={() => navigation.goBack()}
-                style={styles.postisionBack}>
-                <AntDesign
-                  name="arrowleft"
-                  size={23}
-                  style={styles.icons(isTransparent)}
-                />
-              </TouchableOpacity>
-            )}
-            <Text style={styles.title(isTransparent)}>{title}</Text>
-            <View style={Styles.null} />
-          </View>
-        </View>
-      </View>
-    </>
+    <View style={styles.header}>
+      <Text style={styles.name}>{props.title}</Text>
+    </View>
   );
 };
 
-const styles = {
-  container: (safeArea, isFloating, isTransparent) => ({
-    paddingTop: safeArea.top,
-    marginBottom: isFloating ? -TOPNAVI_H - safeArea.top : 0,
-    height: TOPNAVI_H + safeArea.top,
-    justifyContent: 'center',
-    shadowOffset: {y: 0},
-    backgroundColor: isTransparent ? '#0001' : '#FFF',
-    shadowOpacity: isTransparent ? 0 : 0.5,
-    elevation: isTransparent ? 0.01 : 5,
-    zIndex: 100,
-  }),
-  title: (isTransparent) => ({
-    textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 20,
-    color: isTransparent ? '#FFF' : '#000',
-  }),
-  icons: (isTransparent) => ({
-    color: isTransparent ? '#FFF' : '#000',
-  }),
-};
-
-const Styles = StyleSheet.create({
+const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingLeft: 10,
+    alignItems: 'center',
+    padding: 10,
+    height: 60,
+    backgroundColor: COLORS.white,
+    shadowColor: COLORS.black,
+    shadowOpacity: 0.7,
+    elevation: 7,
   },
-  null: {
-    width: 32,
+  name: {
+    color: COLORS.black,
+    fontSize: 20,
+    fontWeight: 'bold',
   },
 });
 
-export default HeaderNavigation;
+export default Header;
