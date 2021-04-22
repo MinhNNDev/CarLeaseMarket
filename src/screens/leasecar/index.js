@@ -8,6 +8,7 @@ import {
   FlatList,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
+import {useNavigation} from '@react-navigation/native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import InputValue from '../../common/components/InputValue';
@@ -15,9 +16,12 @@ import {STYLE} from '../../utils/Theme';
 
 import {styles} from './styles';
 
-const ItemPostCar = ({navigation}) => {
+const ItemPostCar = () => {
+  const navigation = useNavigation();
   return (
-    <TouchableOpacity style={styles.containerItemCar}>
+    <TouchableOpacity
+      onPress={() => navigation.navigate('Details')}
+      style={styles.containerItemCar}>
       <Image
         source={require('../../assets/img/data/MercedesBenzE300AMG_white.jpg')}
         style={styles.bannerItemPostCar}
@@ -26,14 +30,14 @@ const ItemPostCar = ({navigation}) => {
         <Text style={styles.nameCar}>Mercedes-Benz E300AMG</Text>
         <View style={STYLE.RowBetweenAlign}>
           <Text style={styles.instance}>Cách bạn 538m</Text>
-          <Text style={styles.priceCar}>Giá: 800.000 VNĐ</Text>
+          <Text style={styles.priceCar}>Giá: 1.500.000 VNĐ</Text>
         </View>
       </View>
     </TouchableOpacity>
   );
 };
 
-const LeaseCar = () => {
+const LeaseCar = ({navigation}) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [dateTime, setDateTime] = useState('30/4');
 
@@ -55,7 +59,7 @@ const LeaseCar = () => {
     <View style={STYLE.container}>
       <View style={styles.inpSearch}>
         <InputValue
-          icon="map-pin"
+          icon="location"
           placeholder="Nhập địa chỉ để tìm chính xác hơn..."
         />
       </View>

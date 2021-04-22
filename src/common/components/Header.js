@@ -12,9 +12,22 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const Header = props => {
   const navigation = useNavigation();
+  const {back, iconbar} = props;
   return (
     <View style={styles.header}>
+      {back && (
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <AntDesign name="arrowleft" size={23} />
+        </TouchableOpacity>
+      )}
       <Text style={styles.name}>{props.title}</Text>
+      {iconbar ? (
+        <TouchableOpacity onPress={props.onPress}>
+          <AntDesign name={props.icon} size={23} />
+        </TouchableOpacity>
+      ) : (
+        <View style={styles.view} />
+      )}
     </View>
   );
 };
@@ -35,6 +48,9 @@ const styles = StyleSheet.create({
     color: COLORS.black,
     fontSize: 20,
     fontWeight: 'bold',
+  },
+  view: {
+    width: 20,
   },
 });
 

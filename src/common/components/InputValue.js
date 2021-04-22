@@ -1,9 +1,17 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, TextInput, TouchableOpacity} from 'react-native';
-import Icons from 'react-native-vector-icons/Feather';
+import {
+  Text,
+  StyleSheet,
+  View,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
+import Icons from 'react-native-vector-icons/Ionicons';
 import {COLORS} from '../../utils/Theme';
+// import {material} from 'react-native-typography';
 
 export default function InputValue({
+  title,
   icon,
   isPassword,
   onChangeText,
@@ -17,8 +25,9 @@ export default function InputValue({
 
   return (
     <View style={styles.container}>
+      {title && <Text style={styles.title}> {title} </Text>}
       <View style={styles.inputContainer}>
-        <Icons name={icon} size={22} color="#d3d4d5" />
+        <Icons name={icon} size={22} color={COLORS.gray} />
         <TextInput
           placeholder={placeholder}
           style={styles.input}
@@ -54,7 +63,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8f9fa',
     flexDirection: 'row',
     borderWidth: 1,
-    borderColor: '#d3d4d5',
+    borderColor: COLORS.gray,
     borderRadius: 3,
     alignItems: 'center',
     paddingHorizontal: 10,
@@ -64,6 +73,12 @@ const styles = StyleSheet.create({
     borderColor: '#d3d4d5',
     borderWidth: 1,
     borderRadius: 3,
+  },
+  title: {
+    // ...material.caption,
+    color: '#8a8b8c',
+    marginBottom: 8,
+    fontSize: 14,
   },
   input: {
     flex: 1,

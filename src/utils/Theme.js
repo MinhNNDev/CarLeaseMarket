@@ -8,12 +8,17 @@ export const COLORS = {
   // base colors
   primary: '#4bcafb',
   secondary: '#4507A0',
+  primaryOpacity: 'rgba(75, 202, 251, 0.2)',
 
   // gradient
   grStart: '#4bcafb',
   grEnd: '#4507A0',
 
   background: '#FFFFFF', // gray
+
+  warring: '#rgba(204, 51, 0, 0.5)',
+  success: '#rgba(153, 204, 51, 1)',
+  error: '#rgba(255, 204, 0, 0.5)',
 
   // colors
   black: '#1E1F20',

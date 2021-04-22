@@ -6,7 +6,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import HomeScreen from '../../screens/home/index';
 import LeaseCarScreen from '../../screens/leasecar/index';
-import PostCarScreen from '../../screens/postcar/index';
+import ListPostScreen from '../../screens/listpost/index';
 import NotifyScreen from '../../screens/notify/index';
 import ExtendScreen from '../../screens/extend/index';
 
@@ -43,7 +43,7 @@ const TabsNavigation = () => {
         }}>
         <Tab.Screen name="Trang chủ" component={HomeScreen} />
         <Tab.Screen name="Thuê xe" component={LeaseCarScreen} />
-        <Tab.Screen name="Đăng xe" component={PostCarScreen} />
+        <Tab.Screen name="Đăng xe" component={ListPostScreen} />
         <Tab.Screen name="Thông báo" component={NotifyScreen} />
         <Tab.Screen name="Menu" component={ExtendScreen} />
       </Tab.Navigator>
