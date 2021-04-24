@@ -3,7 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import BaseTabs from './tabNavigation';
 
-import HomeScreen from '../../screens/home/index';
+import AuthScreen from '../../screens/auth/login';
 import LeaseScreen from '../../screens/leasecar/index';
 import DetailsCarScreen from '../../screens/details/index';
 import InvoiceSreen from '../../screens/invoice/index';
@@ -18,6 +18,11 @@ const rootStack = createStackNavigator();
 const RootStackScreen = () => {
   return (
     <rootStack.Navigator initialRouteName="Home">
+      <rootStack.Screen
+        name="Auth"
+        component={AuthScreen}
+        options={{headerShown: false}}
+      />
       <rootStack.Screen
         name="Home"
         component={BaseTabs}

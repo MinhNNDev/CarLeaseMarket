@@ -28,16 +28,6 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.7,
     elevation: 5,
   },
-  inpSearch: {
-    margin: 20,
-  },
-  titleDate: {
-    fontWeight: 'bold',
-  },
-  dateSelected: {
-    fontSize: 20,
-    paddingVertical: 5,
-  },
   containerItemCar: {
     width: SIZES.width - 60,
     height: 230,
@@ -71,5 +61,33 @@ export const styles = StyleSheet.create({
   },
   instance: {
     fontSize: 12,
+  },
+  containerListPost: {
+    flex: 1,
+    margin: 10,
+    alignContent: 'center',
+  },
+  openPost: {
+    marginTop: 10,
+    height: 50,
+    marginHorizontal: 20,
+    borderColor: 'gray',
+    borderWidth: 0.5,
+    // borderStyle: 'dashed',
+    borderRadius: 4,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  imgNotifyEmpty: {
+    marginVertical: 20,
+    width: 220,
+    height: 170,
+    marginHorizontal: 60,
+  },
+  txtNotify: {
+    textAlign: 'center',
   },
 });

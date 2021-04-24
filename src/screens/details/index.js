@@ -5,6 +5,7 @@ import {Header} from '../../common/components';
 import {COLORS, STYLE} from '../../utils/Theme';
 
 import {styles} from './styles';
+import {formatCurrency} from '../../common/support/formatCurrency';
 
 const InfoCar = props => {
   return (
@@ -20,45 +21,50 @@ const InfoCar = props => {
   );
 };
 
-const DetailsCar = ({navigation}) => {
+const DetailsCar = ({navigation, route}) => {
+  const {item} = route.params;
   return (
     <View style={STYLE.container}>
       <Header back title="Thông tin chi tiết" />
       <ScrollView style={STYLE.flexScreen}>
         <View>
           <Image
-            source={require('../../assets/img/data/MercedesBenzE300AMG_white.jpg')}
+            source={{
+              uri: `http://45.119.212.43:1337${
+                item.images.length > 0 ? item.images[0].url : ''
+              }`,
+            }}
             style={styles.bannerDetailCar}
             resizeMode="cover"
           />
           <View style={styles.containerGeneral}>
             <View style={styles.infoGeneral}>
-              <Text style={styles.nameCar}>Mercedes-Benz E300AMG</Text>
-              <Text style={styles.price}>1.500.000 VNĐ</Text>
+              <Text style={styles.nameCar}>{item.title}</Text>
+              <Text style={styles.price}>{formatCurrency(item.price)} VNĐ</Text>
             </View>
 
             <View style={styles.infoGeneral}>
               <Text style={styles.member}>Nguyen Ngoc Minh</Text>
-              <Text style={styles.desc}>
-                Xe đời 2021 còn mới, chạy êm, nội thất đẹp, tiện nghi, có cửa
-                hít ...
-              </Text>
+              <Text style={styles.desc}>{item.description}</Text>
             </View>
             <View style={styles.infoDetails}>
               <View>
                 <InfoCar
                   nameIcon="shield-checkmark-outline"
-                  info="Mercedes-Benz"
+                  info={item.brand.name}
                 />
-                <InfoCar nameIcon="today-outline" info="2021" />
-                <InfoCar nameIcon="ios-flame-outline" info="Xăng" />
-                <InfoCar nameIcon="people-outline" info="5 chổ" />
+                <InfoCar nameIcon="today-outline" info={item.year} />
+                <InfoCar nameIcon="ios-flame-outline" info={item.fuel} />
+                <InfoCar nameIcon="people-outline" info={item.seats} />
               </View>
               <View>
                 <InfoCar nameIcon="pricetag-outline" info="E300" />
-                <InfoCar nameIcon="ios-logo-ionic" info="Số tự động" />
-                <InfoCar nameIcon="md-beaker-outline" info="8 lít" />
-                <InfoCar nameIcon="car-outline" info="Sedan" />
+                <InfoCar nameIcon="ios-logo-ionic" info={item.gear} />
+                <InfoCar
+                  nameIcon="md-beaker-outline"
+                  info={item.fuelCapacity}
+                />
+                <InfoCar nameIcon="car-outline" info={item.classification} />
               </View>
             </View>
             <View>

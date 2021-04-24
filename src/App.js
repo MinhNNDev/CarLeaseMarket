@@ -8,21 +8,21 @@
 
 import React from 'react';
 import 'react-native-gesture-handler';
-import {SafeAreaView, StyleSheet} from 'react-native';
+import {View} from 'react-native';
 import AppContainer from './common/navigation/index';
+import {ApolloProvider} from '@apollo/client';
+
+import {client} from './service/graphql';
+import {STYLE} from './utils/Theme';
 
 const App = () => {
   return (
-    <SafeAreaView style={styles.container}>
-      <AppContainer />
-    </SafeAreaView>
+    <ApolloProvider client={client}>
+      <View style={STYLE.container}>
+        <AppContainer />
+      </View>
+    </ApolloProvider>
   );
 };
 
 export default App;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});

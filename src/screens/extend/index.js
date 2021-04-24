@@ -7,6 +7,7 @@ import {
   ScrollView,
   Image,
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {COLORS, SIZES} from '../../utils/Theme';
 import {styles} from './styles';
@@ -23,6 +24,7 @@ const Icon = ({name}) => {
 };
 
 const OptionsBar = props => {
+  const navigation = useNavigation();
   return (
     <TouchableOpacity onPress={props.onPress}>
       <View style={styles.optionBar}>
@@ -33,7 +35,7 @@ const OptionsBar = props => {
   );
 };
 
-const Extend = () => {
+const Extend = ({navigation}) => {
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -42,10 +44,14 @@ const Extend = () => {
             source={require('../../assets/img/blank.jpg')}
             style={styles.iconUser}
           />
-          <Text style={styles.txtUser}>0954785858</Text>
+          <Text style={styles.txtUser}>Đăng nhập/Đăng ký</Text>
         </View>
         <View style={styles.blockOptions}>
-          <OptionsBar icon="user" title="Tài khoản" />
+          <OptionsBar
+            icon="user"
+            title="Tài khoản"
+            onPress={() => navigation.navigate('Auth')}
+          />
           <OptionsBar icon="car" title="Lịch sử thuê xe" />
           <OptionsBar icon="car" title="Lịch sử cho thuê xe" />
           <OptionsBar icon="car" title="Quản lí thông tin xe" />
@@ -59,7 +65,7 @@ const Extend = () => {
           <OptionsBar icon="setting" title="Cài đặt" />
           <OptionsBar icon="info" title="CarLease" />
         </View>
-        <Text style={styles.version}>Version 12.4.3</Text>
+        <Text style={styles.version}>Version 1.4.3</Text>
       </ScrollView>
     </View>
   );
