@@ -36,18 +36,24 @@ const RegisterAuthAction = (userState, navigation, setErrorHandler) => {
 const LoginAuthAction = (loginState, navigation, setErrorHandler) => {
   return async dispatch => {
     try {
-      const res = await axios.post('/login', loginState);
+      const data_form = {
+        identifier: loginState.phone,
+        password: loginState.password,
+      };
+      const res = await axios.post('/', data_form);
       const {data} = res;
       dispatch({type: AuthActionType.LOGIN_SUCCESS, payload: data});
       navigation.navigate('Home');
     } catch (error) {
+      let messageError = 'Tài khoản hoặc mật khẩu không chính xác !!!';
       if (error.response) {
+        // let messageError = error.response.data.data[0].messages[0].message;
         dispatch({
           type: AuthActionType.LOGIN_FAIL,
-          payload: error.response.data.message,
+          payload: messageError,
         });
       }
-      setErrorHandler({hasError: true, message: error.response.data.message});
+      setErrorHandler({hasError: true, message: messageError});
     }
   };
 };

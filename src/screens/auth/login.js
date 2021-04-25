@@ -17,8 +17,8 @@ const Auth = props => {
   const [loginState, setLoginState] = useState({});
   const [userState, setUserstate] = useState({});
 
-  console.log(loginState);
-  console.log(userState);
+  // console.log(loginState); // ra obj =>> nhung hinh nhu no ko gui qua action
+  // console.log(userState);
   const [errorHandler, setErrorHandler] = useState({
     hasError: false,
     message: '',
@@ -80,7 +80,9 @@ const Auth = props => {
                 isPassword
               />
               <TouchableOpacity
-                onPress={() => login(loginState, navigation, setErrorHandler)}
+                onPress={() => {
+                  login(loginState, navigation, setErrorHandler);
+                }}
                 style={styles.btnLog}>
                 <Text>ĐĂNG NHẬP</Text>
               </TouchableOpacity>

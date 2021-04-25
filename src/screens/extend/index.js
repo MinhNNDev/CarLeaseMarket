@@ -1,15 +1,8 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  ScrollView,
-  Image,
-} from 'react-native';
+import {Text, View, TouchableOpacity, ScrollView, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {COLORS, SIZES} from '../../utils/Theme';
+import {COLORS} from '../../utils/Theme';
 import {styles} from './styles';
 
 const Icon = ({name}) => {
@@ -35,7 +28,9 @@ const OptionsBar = props => {
   );
 };
 
-const Extend = ({navigation}) => {
+const Extend = props => {
+  const {auth} = props;
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <ScrollView>
