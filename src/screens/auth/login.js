@@ -1,13 +1,32 @@
 import React, {useState} from 'react';
 import {Text, View, SafeAreaView, TouchableOpacity, Image} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {connect} from 'react-redux';
+import {
+  LoginAuthAction,
+  RegisterAuthAction,
+} from '../../common/redux/actions/AuthAction';
 
 import {InputValue} from '../../common/components';
 
 import {COLORS} from '../../utils/Theme';
 import {styles} from './styles';
 
-const Auth = () => {
+const Auth = props => {
+  const {login, register} = props;
+  const [loginState, setLoginState] = useState({});
+  const [userState, setUserstate] = useState({});
+
+  console.log(loginState);
+  console.log(userState);
+  const [errorHandler, setErrorHandler] = useState({
+    hasError: false,
+    message: '',
+  });
+
   const [tab, setTab] = useState(0);
+
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>
@@ -45,9 +64,24 @@ const Auth = () => {
                 source={require('../../assets/img/logo.png')}
                 style={styles.logo}
               />
-              <InputValue title="Số điện thoại" icon="person" />
-              <InputValue title="Mật khẩu" icon="lock-closed" isPassword />
-              <TouchableOpacity style={styles.btnLog}>
+              <InputValue
+                onChangeText={phone =>
+                  setLoginState({...loginState, ...{phone}})
+                }
+                title="Số điện thoại"
+                icon="person"
+              />
+              <InputValue
+                onChangeText={password =>
+                  setLoginState({...loginState, ...{password}})
+                }
+                title="Mật khẩu"
+                icon="lock-closed"
+                isPassword
+              />
+              <TouchableOpacity
+                onPress={() => login(loginState, navigation, setErrorHandler)}
+                style={styles.btnLog}>
                 <Text>ĐĂNG NHẬP</Text>
               </TouchableOpacity>
             </View>
@@ -55,9 +89,24 @@ const Auth = () => {
         )}
         {tab === 1 && (
           <View style={styles.container}>
-            <InputValue title="Số điện thoại" icon="person" />
-            <InputValue title="Email" icon="mail" />
-            <InputValue title="Mật khẩu" icon="lock-closed" isPassword />
+            <InputValue
+              onChangeText={phone => setUserstate({...userState, ...{phone}})}
+              title="Số điện thoại"
+              icon="person"
+            />
+            <InputValue
+              onChangeText={email => setUserstate({...userState, ...{email}})}
+              title="Email"
+              icon="mail"
+            />
+            <InputValue
+              onChangeText={password =>
+                setUserstate({...userState, ...{password}})
+              }
+              title="Mật khẩu"
+              icon="lock-closed"
+              isPassword
+            />
             <View style={styles.policy}>
               <View style={styles.box} />
               <Text style={styles.policyText}>
@@ -65,7 +114,9 @@ const Auth = () => {
                 <Text style={styles.policyTextColor}>Privacy Policy</Text>
               </Text>
             </View>
-            <TouchableOpacity style={styles.btnLog}>
+            <TouchableOpacity
+              onPress={() => register(userState, navigation, setErrorHandler)}
+              style={styles.btnLog}>
               <Text>ĐĂNG KÝ</Text>
             </TouchableOpacity>
           </View>
@@ -74,4 +125,21 @@ const Auth = () => {
     </SafeAreaView>
   );
 };
-export default Auth;
+const mapStateToProps = state => {
+  return {
+    user: state,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    login: (loginState, navigation, setErrorHandler) => {
+      dispatch(LoginAuthAction(loginState, navigation, setErrorHandler));
+    },
+    register: (userState, navigation, setErrorHandler) => {
+      dispatch(RegisterAuthAction(userState, navigation, setErrorHandler));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);

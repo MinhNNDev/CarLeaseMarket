@@ -8,19 +8,19 @@
 
 import React from 'react';
 import 'react-native-gesture-handler';
-import {View} from 'react-native';
 import AppContainer from './common/navigation/index';
 import {ApolloProvider} from '@apollo/client';
+import {Provider} from 'react-redux';
+import store from './common/redux/store';
 
 import {client} from './service/graphql';
-import {STYLE} from './utils/Theme';
 
 const App = () => {
   return (
     <ApolloProvider client={client}>
-      <View style={STYLE.container}>
+      <Provider store={store}>
         <AppContainer />
-      </View>
+      </Provider>
     </ApolloProvider>
   );
 };
