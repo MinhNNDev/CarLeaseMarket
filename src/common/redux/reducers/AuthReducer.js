@@ -5,7 +5,7 @@ import {AuthActionType} from '../actions/AuthAction';
 const authState = {
   isLoggedIn: false,
   user: {
-    name: '',
+    identifier: '',
     expires_at: '',
     jwttoken: '',
     authorities: [],

@@ -14,7 +14,11 @@ const AuthActionType = {
 const RegisterAuthAction = (userState, navigation, setErrorHandler) => {
   return async dispatch => {
     try {
-      const res = await axios.post('/register', userState);
+      const data_form = {
+        identifier: userState.phone,
+        password: userState.password,
+      };
+      const res = await axios.post('/', data_form);
       const {data} = res;
       dispatch({type: AuthActionType.REGISTER_SUCCESS, payload: data});
       navigation.navigate('Home');
@@ -61,7 +65,7 @@ const LoginAuthAction = (loginState, navigation, setErrorHandler) => {
 const LogOutAuthAction = navigation => {
   return async dispatch => {
     try {
-      const res = await axios.get('/logout');
+      const res = await axios.get('/');
       const {data} = res;
       dispatch({
         type: AuthActionType.LOGOUT_SUCCESS,

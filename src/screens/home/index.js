@@ -1,31 +1,31 @@
 import React from 'react';
 import {
-  StatusBar,
   Text,
   View,
   Image,
   FlatList,
   TouchableOpacity,
   ImageBackground,
+  Linking,
   ScrollView,
 } from 'react-native';
+import {connect} from 'react-redux';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {SIZES, STYLE} from '../../utils/Theme';
 import {styles} from './styles';
 
-const Header = () => {
+const Header = props => {
   return (
     <>
-      <StatusBar backgroundColor="transparent" />
       <View style={styles.header}>
         <View style={[STYLE.row, styles.containerUser]}>
           <Image
             source={require('../../assets/img/blank.jpg')}
             style={styles.iconUser}
           />
-          <Text>Xin chào, Nguyễn Ngọc Minh</Text>
+          <Text>Xin chào, {props.phone}</Text>
         </View>
         <View style={STYLE.row}>
           <AntDesign name="wallet" size={20} style={styles.iconHead} />
@@ -37,11 +37,12 @@ const Header = () => {
   );
 };
 
-const Home = () => {
+const Home = props => {
+  const {auth} = props;
   const iconName = ['idcard', 'calendar', 'barschart', 'message1'];
   return (
     <View style={STYLE.container}>
-      <Header />
+      <Header phone={auth.isLoggedIn ? auth.user.user.phone : '...'} />
       <ScrollView>
         <View style={styles.container}>
           <View style={STYLE.row}>
@@ -50,7 +51,7 @@ const Home = () => {
               <MaterialIcons name="car" size={30} style={styles.iconHead} />
             </View>
             <View style={styles.containerBox}>
-              <Text>XE CÓ LÁI</Text>
+              <Text>XE CÓ TÀI</Text>
               <MaterialIcons name="car" size={30} style={styles.iconHead} />
             </View>
           </View>
@@ -95,7 +96,8 @@ const Home = () => {
                   Trở thành khách hàng đối tác của chúng tôi
                 </Text>
               </View>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => Linking.openURL('http://google.com')}>
                 <Text style={styles.txtSignUp}>Đăng ký</Text>
               </TouchableOpacity>
             </View>
@@ -109,10 +111,12 @@ const Home = () => {
               <TouchableOpacity>
                 <Text style={styles.txtContact}>Group</Text>
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => Linking.openURL('http://google.com')}>
                 <Text style={styles.txtContact}>Fanpage</Text>
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => Linking.openURL('http://google.com')}>
                 <Text style={styles.txtContact}>Zalo</Text>
               </TouchableOpacity>
             </View>
@@ -123,4 +127,10 @@ const Home = () => {
   );
 };
 
-export default Home;
+const mapStateToProps = state => {
+  return {
+    auth: state.authState,
+  };
+};
+
+export default connect(mapStateToProps)(Home);

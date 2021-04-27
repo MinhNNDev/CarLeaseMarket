@@ -16,9 +16,7 @@ const Auth = props => {
   const {login, register} = props;
   const [loginState, setLoginState] = useState({});
   const [userState, setUserstate] = useState({});
-
-  // console.log(loginState); // ra obj =>> nhung hinh nhu no ko gui qua action
-  // console.log(userState);
+  // console.log(loginState);
   const [errorHandler, setErrorHandler] = useState({
     hasError: false,
     message: '',

@@ -1,5 +1,14 @@
 import React from 'react';
-import {Text, View, TouchableOpacity, ScrollView, Image} from 'react-native';
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  ScrollView,
+  Image,
+  Linking,
+} from 'react-native';
+import {connect} from 'react-redux';
+import {LogOutAuthAction} from '../../common/redux/actions/AuthAction';
 import {useNavigation} from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {COLORS} from '../../utils/Theme';
@@ -29,7 +38,8 @@ const OptionsBar = props => {
 };
 
 const Extend = props => {
-  const {auth} = props;
+  const {auth, logout} = props;
+  // console.log(logout);
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
@@ -39,26 +49,62 @@ const Extend = props => {
             source={require('../../assets/img/blank.jpg')}
             style={styles.iconUser}
           />
-          <Text style={styles.txtUser}>Đăng nhập/Đăng ký</Text>
+          <Text style={styles.txtUser}>
+            {auth.isLoggedIn ? auth.user.user.phone : 'Đăng nhập/Đăng ký'}
+            {/*
+            phone: Số điện thoại
+            username: Tên người dùng
+            email: Email
+             */}
+          </Text>
         </View>
         <View style={styles.blockOptions}>
           <OptionsBar
             icon="user"
             title="Tài khoản"
-            onPress={() => navigation.navigate('Auth')}
+            onPress={() =>
+              navigation.navigate(`${auth.isLoggedIn ? 'Users' : 'Auth'}`, {
+                auth,
+              })
+            }
           />
-          <OptionsBar icon="car" title="Lịch sử thuê xe" />
+          {/* <OptionsBar icon="car" title="Lịch sử thuê xe" />
           <OptionsBar icon="car" title="Lịch sử cho thuê xe" />
-          <OptionsBar icon="car" title="Quản lí thông tin xe" />
+          <OptionsBar icon="car" title="Quản lí thông tin xe" /> */}
         </View>
         <View style={styles.blockOptions}>
-          <OptionsBar icon="customerservice" title="Hỗ trợ và tư vấn" />
-          <OptionsBar icon="lock" title="Chính sách CarLease" />
-          <OptionsBar icon="Safety" title="Góp ý" />
+          <OptionsBar
+            // onPress={() => Linking.openURL('http://google.com')}
+            icon="customerservice"
+            title="Hỗ trợ và tư vấn"
+          />
+          <OptionsBar
+            onPress={() =>
+              Linking.openURL('https://www.tiktok.com/legal/privacy-policy')
+            }
+            icon="lock"
+            title="Chính sách CarLease"
+          />
+          <OptionsBar
+            // onPress={() => Linking.openURL('http://google.com')}
+            icon="Safety"
+            title="Góp ý"
+          />
         </View>
         <View style={styles.blockOptions}>
           <OptionsBar icon="setting" title="Cài đặt" />
-          <OptionsBar icon="info" title="CarLease" />
+          <OptionsBar
+            // onPress={() => Linking.openURL('http://minhn.dev')}
+            icon="info"
+            title="CarLease"
+          />
+        </View>
+        <View style={styles.blockOptions}>
+          <OptionsBar
+            icon="logout"
+            title="Đăng xuất"
+            onPress={() => logout(navigation)}
+          />
         </View>
         <Text style={styles.version}>Version 1.4.3</Text>
       </ScrollView>
@@ -66,4 +112,18 @@ const Extend = props => {
   );
 };
 
-export default Extend;
+const mapStateToProps = state => {
+  return {
+    auth: state.authState,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    logout: navigation => {
+      dispatch(LogOutAuthAction(navigation));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Extend);
