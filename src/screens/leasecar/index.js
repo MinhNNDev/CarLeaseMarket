@@ -4,12 +4,13 @@ import {
   View,
   TouchableOpacity,
   Image,
-  FlatList,
+  Alert,
   ActivityIndicator,
   ScrollView,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import moment from 'moment';
 
 import {useQuery, gql} from '@apollo/client';
 
@@ -21,12 +22,12 @@ import {styles} from './styles';
 import {formatCurrency} from '../../common/support/formatCurrency';
 
 import {GET_CAR} from '../../service/graphql/queries/cars';
-
+var dateIntance = 0;
 const ItemPostCar = ({item}) => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate('Details', {item})}
+      onPress={() => navigation.navigate('Details', {item, dateIntance})}
       style={styles.containerItemCar}>
       <Image
         source={{
@@ -51,7 +52,11 @@ const ItemPostCar = ({item}) => {
 
 const LeaseCar = () => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [dateTime, setDateTime] = useState('30/4');
+  const [isDatePickerVisibleE, setDatePickerVisibilityE] = useState(false);
+  const [startDate, setStartDate] = useState('');
+  const [startMonth, setStartMonth] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [endMonth, setEndMonth] = useState('');
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -60,10 +65,47 @@ const LeaseCar = () => {
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
   };
-  const handleConfirm = date => {
-    console.log('A date has been picked: ', date);
-    hideDatePicker();
+  const showDatePickerE = () => {
+    setDatePickerVisibilityE(true);
   };
+
+  const hideDatePickerE = () => {
+    setDatePickerVisibilityE(false);
+  };
+  const handleConfirmStartDate = date => {
+    hideDatePicker();
+    setStartDate(moment(date).format('DD'));
+    setStartMonth(moment(date).format('MM'));
+  };
+  const handleConfirmEndDate = date => {
+    hideDatePickerE();
+    setEndDate(moment(date).format('DD'));
+    setEndMonth(moment(date).format('MM'));
+  };
+
+  const intStartDate = parseFloat(startDate);
+  const intStartMonth = parseFloat(startMonth);
+  const intEndtDate = parseFloat(endDate);
+  const intEndMonth = parseFloat(endMonth);
+
+  // console.log('Kết quả: ', intEndtDate - intStartDate);
+
+  var ndate = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  if (intEndMonth - intStartMonth > 6) {
+    setEndDate('--');
+    setEndMonth('--');
+    Alert.alert('Ngoài thời gian cho phép', 'Hãy chọn lại ngày kết thúc');
+  } else if (intStartMonth === intEndMonth) {
+    dateIntance = intEndtDate - intStartDate;
+    if (dateIntance < 0) {
+      setEndDate('--');
+      setEndMonth('--');
+      Alert.alert('Thời gian không hợp lệ', 'Hãy chọn lại ngày kết thúc');
+    }
+  } else if (intEndMonth > intStartMonth) {
+    dateIntance = ndate[intStartMonth - 1] - intStartDate + intEndtDate;
+  }
+  console.log('Kết quả: ', dateIntance);
 
   const {loading, error, data} = useQuery(GET_CAR);
   if (loading) {
@@ -94,20 +136,32 @@ const LeaseCar = () => {
       <View style={styles.containerSelectDate}>
         <TouchableOpacity onPress={showDatePicker} style={styles.btnPickDate}>
           <Text style={styles.titleDate}>Ngày nhận xe</Text>
-          <Text style={styles.dateSelected}>15/04</Text>
+          <Text style={styles.dateSelected}>
+            {startDate}/{startMonth}
+          </Text>
+          <DateTimePickerModal
+            minimumDate={new Date()}
+            isVisible={isDatePickerVisible}
+            mode="date"
+            onConfirm={handleConfirmStartDate}
+            onCancel={hideDatePicker}
+          />
         </TouchableOpacity>
         <Ionicons name="ios-arrow-forward" size={35} color="#31a34c" />
-        <TouchableOpacity onPress={showDatePicker} style={styles.btnPickDate}>
+        <TouchableOpacity onPress={showDatePickerE} style={styles.btnPickDate}>
           <Text style={styles.titleDate}>Ngày trả xe</Text>
-          <Text style={styles.dateSelected}>30/04</Text>
+          <Text style={styles.dateSelected}>
+            {endDate}/{endMonth}
+          </Text>
         </TouchableOpacity>
+        <DateTimePickerModal
+          minimumDate={new Date()}
+          isVisible={isDatePickerVisibleE}
+          mode="date"
+          onConfirm={handleConfirmEndDate}
+          onCancel={hideDatePickerE}
+        />
       </View>
-      <DateTimePickerModal
-        isVisible={isDatePickerVisible}
-        mode="date"
-        onConfirm={handleConfirm}
-        onCancel={hideDatePicker}
-      />
       <View style={styles.containerListCar}>
         <ScrollView>
           {data.cars.map(item => (

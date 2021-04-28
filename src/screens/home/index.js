@@ -10,6 +10,7 @@ import {
   ScrollView,
 } from 'react-native';
 import {connect} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -38,6 +39,7 @@ const Header = props => {
 };
 
 const Home = props => {
+  const navigation = useNavigation();
   const {auth} = props;
   const iconName = ['idcard', 'calendar', 'barschart', 'message1'];
   return (
@@ -46,14 +48,18 @@ const Home = props => {
       <ScrollView>
         <View style={styles.container}>
           <View style={STYLE.row}>
-            <View style={styles.containerBox}>
-              <Text>XE TỰ LÁI</Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Lease')}
+              style={styles.containerBox}>
+              <Text>THUÊ XE</Text>
               <MaterialIcons name="car" size={30} style={styles.iconHead} />
-            </View>
-            <View style={styles.containerBox}>
-              <Text>XE CÓ TÀI</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('ListPost')}
+              style={styles.containerBox}>
+              <Text>CHO THUÊ XE</Text>
               <MaterialIcons name="car" size={30} style={styles.iconHead} />
-            </View>
+            </TouchableOpacity>
           </View>
           <FlatList
             style={styles.FlatListIcon}

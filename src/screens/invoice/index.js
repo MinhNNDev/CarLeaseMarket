@@ -1,9 +1,8 @@
 import React from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import {baseProps} from 'react-native-gesture-handler/lib/typescript/handlers/gestureHandlers';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Header} from '../../common/components';
-import {STYLE, COLORS, SIZES} from '../../utils/Theme';
+import {formatCurrency} from '../../common/support/formatCurrency';
+import {COLORS, SIZES} from '../../utils/Theme';
 
 const InfoBar = props => {
   return (
@@ -14,43 +13,57 @@ const InfoBar = props => {
   );
 };
 
-const Invoice = () => {
+const Invoice = ({navigation, route}) => {
+  const {item, dateIntance} = route.params;
   return (
     <>
       <Header back title="Xác nhận đặt xe" />
       <View style={styles.container}>
         <View style={styles.block}>
-          <InfoBar title="Đơn giá thuê" price="1.500.000" />
-          <View style={styles.infoBarConfirm}>
+          <InfoBar title="Đơn giá thuê" price={formatCurrency(item.price)} />
+          {/* <View style={styles.infoBarConfirm}>
             <Text>Ngày nhận xe</Text>
             <Text>27/04/2021</Text>
           </View>
           <View style={styles.infoBarConfirm}>
             <Text>Ngày trả xe</Text>
             <Text>30/04/2021</Text>
-          </View>
+          </View> */}
         </View>
         <View style={styles.block}>
-          <InfoBar title="Giá ngày thường" price="1.500.000" />
+          <InfoBar title="Giá ngày thường" price={formatCurrency(item.price)} />
           <InfoBar title="Giá cuối tuần" price="0" />
           <InfoBar title="Giá ngày lễ" price="0" />
           <InfoBar title="Giảm giá" price="0" />
           <View style={styles.infoBarConfirm}>
             <Text>Số ngày</Text>
-            <Text>3 ngày</Text>
+            <Text>{dateIntance} ngày</Text>
           </View>
           <View style={styles.infoBarConfirm}>
             <Text style={styles.txtTitle}>Tổng tiền</Text>
-            <Text style={styles.txtSumPrice}>4.500.000 VNĐ</Text>
+            <Text style={styles.txtSumPrice}>
+              {formatCurrency(item.price * dateIntance)} VND
+            </Text>
           </View>
         </View>
         <View style={styles.block}>
           <Text style={styles.txtTitle}>Thông tin thanh toán</Text>
-          <InfoBar title="Tiền cọc" price="1.500.000" />
-          <InfoBar title="Tiền thanh toán cho chủ xe" price="3.000.000" />
+          <InfoBar
+            title="Tiền cọc"
+            price={formatCurrency(
+              parseFloat((item.price * dateIntance * 30) / 100),
+            )}
+          />
+          <InfoBar
+            title="Tiền thanh toán cho chủ xe"
+            price={formatCurrency(
+              item.price * dateIntance -
+                parseFloat((item.price * dateIntance * 30) / 100),
+            )}
+          />
         </View>
         <TouchableOpacity style={styles.buttonConfirmInvoice}>
-          <Text style={styles.txtButton}>Xem hoá đơn chi tiết</Text>
+          <Text style={styles.txtButton}>Thanh toán</Text>
           <Text style={styles.txtDescButton}>
             Ứng dụng và chủ xe sẽ liên hệ sớm đến bạn
           </Text>

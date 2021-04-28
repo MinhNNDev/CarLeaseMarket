@@ -1,5 +1,12 @@
 import React from 'react';
-import {Text, View, Image, TouchableOpacity, ScrollView} from 'react-native';
+import {
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  FlatList,
+} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Header} from '../../common/components';
 import {COLORS, STYLE} from '../../utils/Theme';
@@ -22,25 +29,34 @@ const InfoCar = props => {
 };
 
 const DetailsCar = ({navigation, route}) => {
-  const {item} = route.params;
+  const {item, dateIntance} = route.params;
+
   return (
     <View style={STYLE.container}>
       <Header back title="Thông tin chi tiết" />
       <ScrollView style={STYLE.flexScreen}>
         <View>
-          <Image
-            source={{
-              uri: `http://45.119.212.43:1337${
-                item.images.length > 0 ? item.images[0].url : ''
-              }`,
+          <FlatList
+            horizontal
+            pagingEnabled
+            data={item.images}
+            renderItem={image => {
+              return (
+                <Image
+                  source={{
+                    uri: `http://45.119.212.43:1337${image.item.url}`,
+                  }}
+                  style={styles.bannerDetailCar}
+                  resizeMode="cover"
+                />
+              );
             }}
-            style={styles.bannerDetailCar}
-            resizeMode="cover"
           />
           <View style={styles.containerGeneral}>
             <View style={styles.infoGeneral}>
               <Text style={styles.nameCar}>{item.title}</Text>
               <Text style={styles.price}>{formatCurrency(item.price)} VNĐ</Text>
+              <Text style={styles.member}>Số ngày thuê xe: {dateIntance}</Text>
             </View>
 
             <View style={styles.infoGeneral}>
@@ -118,9 +134,10 @@ const DetailsCar = ({navigation, route}) => {
         </View>
       </ScrollView>
       <TouchableOpacity
-        onPress={() => navigation.navigate('Invoice')}
+        onPress={() => navigation.navigate('Invoice', {item, dateIntance})}
         style={styles.buttonOpenBill}>
-        <Text style={styles.txtButton}>Xem hoá đơn chi tiết</Text>
+        <Text style={styles.txtButton}>Đặt xe</Text>
+        <Text style={styles.txtDescButton}>Xem hoá đơn chi tiết</Text>
       </TouchableOpacity>
     </View>
   );

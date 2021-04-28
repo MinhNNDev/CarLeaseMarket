@@ -73,4 +73,8 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     color: COLORS.white,
   },
+  txtDescButton: {
+    fontSize: 12,
+    color: COLORS.white,
+  },
 });

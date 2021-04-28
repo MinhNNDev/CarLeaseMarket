@@ -64,22 +64,10 @@ const LoginAuthAction = (loginState, navigation, setErrorHandler) => {
 
 const LogOutAuthAction = navigation => {
   return async dispatch => {
-    try {
-      const res = await axios.get('/');
-      const {data} = res;
-      dispatch({
-        type: AuthActionType.LOGOUT_SUCCESS,
-        payload: data.message,
-      });
-      navigation.navigate('Auth');
-    } catch (error) {
-      if (error.response) {
-        dispatch({
-          type: AuthActionType.LOGOUT_FAIL,
-          payload: error.response.data.message,
-        });
-      }
-    }
+    dispatch({
+      type: AuthActionType.LOGOUT_SUCCESS,
+    });
+    navigation.navigate('Auth');
   };
 };
 
