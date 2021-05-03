@@ -42,6 +42,7 @@ const Home = props => {
   const navigation = useNavigation();
   const {auth} = props;
   const iconName = ['idcard', 'calendar', 'barschart', 'message1'];
+  const iconTitle = ['Cá nhân', 'Lịch sử', 'Thống kê', 'Tin nhắn'];
   return (
     <View style={STYLE.container}>
       <Header phone={auth.isLoggedIn ? auth.user.user.phone : '...'} />
@@ -66,7 +67,7 @@ const Home = props => {
             horizontal
             data={iconName}
             keyExtractor={(item, index) => index.toString()}
-            renderItem={item => {
+            renderItem={(item, index) => {
               return (
                 <View style={styles.containerTouchIcon}>
                   <TouchableOpacity>
@@ -74,7 +75,7 @@ const Home = props => {
                       <AntDesign name={item.item} size={25} />
                     </View>
                   </TouchableOpacity>
-                  <Text style={styles.toucdIconName}>{item.item}</Text>
+                  <Text style={styles.toucdIconName}>{iconTitle[item.index]}</Text>
                 </View>
               );
             }}

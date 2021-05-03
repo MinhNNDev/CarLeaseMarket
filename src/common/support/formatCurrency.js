@@ -1,5 +1,18 @@
+import React from 'react';
+import {
+  Text,
+} from 'react-native';
+import NumberFormat from 'react-number-format';
+
 export const formatCurrency = price => {
-  var vnd = price;
-  vnd = vnd.toLocaleString('vi-VN');
-  return vnd;
+  return (
+    <NumberFormat
+      value={price}
+      displayType={'text'}
+      thousandSeparator={'.'}
+      decimalSeparator={','}
+      suffix={' đ/ngày'}
+      renderText={formattedValue => <Text style={{fontSize: 16}}>{formattedValue}</Text>}
+    />
+  );
 };

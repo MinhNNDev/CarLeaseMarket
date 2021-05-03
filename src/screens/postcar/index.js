@@ -12,6 +12,8 @@ import {
 import MultipleImagePicker from '@baronha/react-native-multiple-image-picker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
+import {useNavigation} from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
 
 import {COLORS, STYLE} from '../../utils/Theme';
 import {Header, InputValue} from '../../common/components';
@@ -22,18 +24,19 @@ const {width} = Dimensions.get('window');
 const IMAGE_WIDTH = (width - 24) / 3;
 
 const PostCar = () => {
+  const navigation = useNavigation();
+
   const [images, setImages] = useState([]);
   const [infoCar, setInfoCar] = useState({});
-  console.log(infoCar);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   const openPicker = async () => {
     try {
       const response = await MultipleImagePicker.openPicker({
         selectedAssets: images,
-        isExportThumbnail: true,
-        maxVideo: 1,
+        mediaType: 'image',
+        isPreview: false,
       });
-      console.log('done: ', response);
       setImages(response);
     } catch (e) {
       console.log(e);
@@ -50,45 +53,128 @@ const PostCar = () => {
   };
 
   const handleSubmit = () => {
-    console.log('post');
+    // TODO: Validate dữ liệu đầu vào
 
-    const formData = new FormData();
+    // Tên xe
+    if (!infoCar.name || infoCar.name.trim().length < 10) {
+      Toast.show({
+        type: 'error',
+        text1: 'Lỗi rồiiiiii',
+        text2: 'Bạn ơi, tên của xe ít nhất phải có 10 kí tự nhé 😅!'
+      });
+      return;
+    }
 
+    // Giá xe
+    if (!infoCar.price || parseInt(infoCar.price, 10) < 1000) {
+      Toast.show({
+        type: 'error',
+        text1: 'Lỗi rồiiiiii',
+        text2: 'Bạn ơi, giá cho thuê tối thiểu phải là 1.000vnđ 😅!'
+      });
+      return;
+    }
+
+    // Mô tả xe
+    if (!infoCar.desc || infoCar.desc.trim().length < 10) {
+      Toast.show({
+        type: 'error',
+        text1: 'Lỗi rồiiiiii',
+        text2: 'Bạn ơi, mô tả của xe ít nhất phải có 10 kí tự nhé 😅!'
+      });
+      return;
+    }
+
+    // Năm sản xuất
+    if (!infoCar.year || parseInt(infoCar.year) < 1900 || parseInt(infoCar.year) > new Date().getFullYear() + 2) {
+      Toast.show({
+        type: 'error',
+        text1: 'Lỗi rồiiiiii',
+        text2: 'Bạn ơi, năm sản xuất không hợp lệ rồi 😅!'
+      });
+      return;
+    }
+
+    // Dung tích nhiên liệu
+    if (!infoCar.fuelCap || parseFloat(infoCar.fuelCap) < 1.0) {
+      Toast.show({
+        type: 'error',
+        text1: 'Lỗi rồiiiiii',
+        text2: 'Bạn ơi, dung tích bình nhiên liệu không hợp lệ rồi 😅!'
+      });
+      return;
+    }
+
+     // Số chỗ ngồi
+     if (!infoCar.seats || parseInt(infoCar.seats) < 1) {
+      Toast.show({
+        type: 'error',
+        text1: 'Lỗi rồiiiiii',
+        text2: 'Bạn ơi, số chỗ ngồi chưa hợp lệ kìa 😅!'
+      });
+      return;
+    }
+
+    // Validate xong rồi nha
+
+    Toast.show({
+      type: 'info',
+      text1: 'Đợi chút xíu',
+      text2: 'Chúng tôi đang tải thông tin xe của bạn lên, vui lòng đợi trong giây lát !'
+    });
+
+
+    let imagesData = new FormData();
     Array.from(images).forEach(image => {
-      formData.append('files', {
-        uri: image.realPath,
+      imagesData.append('files', {
+        uri: image.path,
         name: image.fileName,
         type: image.mine,
       });
     });
 
     axios
-      .post('http://45.119.212.43:1337/upload', formData, {
+      .request({
+        method: 'post',
+        url: 'http://45.119.212.43:1337/upload',
         headers: {'Content-Type': 'multipart/form-data'},
+        data: imagesData,
+        // State lưu tiến độ tải ảnh lên hệ thống
+        onUploadProgress: p => setUploadProgress(p.loaded / p.total),
       })
-      .then(res => {
-        console.log(res);
+      .then(response => {
+        if (response.status === 200) {
+          axios
+          .post('http://45.119.212.43:1337/cars', {
+            title: infoCar.name,
+            price: parseInt(infoCar.price, 10),
+            brand: '60818bdc846210352069d679',
+            description: infoCar.desc,
+            year: infoCar.year,
+            gear: 'manual',
+            fuel: 'gasoline',
+            fuelCapacity: parseFloat(infoCar.fuelCap),
+            seats: parseInt(infoCar.seats, 10),
+            classification: 'Sedan',
+            images: response.data.map(image => image.id)
+          })
+          .then(res => {
+            // TODO: Đăng xe lên hệ thống thành công, làm gì đó để hiển thị giao diện
+            if (res.status === 200) {
+              Toast.hide();
+              Toast.show({
+                type: 'success',
+                text1: 'Chúc Mừng',
+                text2: 'Bạn đã đăng xe cho thuê thành công rồi 🎉🎉!'
+              });
+              navigation.navigate('Lease');
+            }
+          });
+        }
       })
-      .catch(err => {
-        console.error(err);
+      .catch(error => {
+        console.error(error);
       });
-
-    // axios
-    //   .post('http://45.119.212.43:1337/cars', {
-    //     title: infoCar.name,
-    //     price: parseInt(infoCar.price, 10),
-    //     brand: '60818bdc846210352069d679',
-    //     description: infoCar.desc,
-    //     year: infoCar.year,
-    //     gear: 'manual',
-    //     fuel: 'gasoline',
-    //     fuelCapacity: parseFloat(infoCar.fuelCap),
-    //     seats: parseInt(infoCar.seats, 10),
-    //     classification: 'Sedan',
-    //   })
-    //   .then(response => {
-    //     console.log(response);
-    //   });
   };
 
   const renderItem = ({item, index}) => {
@@ -113,7 +199,7 @@ const PostCar = () => {
 
   return (
     <View style={STYLE.container}>
-      <Header back title="Đăng xe" iconbar icon="save" />
+      <Header back title="Đăng xe" iconbar icon="save" onPress={handleSubmit} />
       <ScrollView>
         <View style={styles.main}>
           <Text style={styles.title}>Chọn nhiều hình để bán chạy hơn</Text>

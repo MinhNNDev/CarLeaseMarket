@@ -7,6 +7,7 @@ import {
   Alert,
   ActivityIndicator,
   ScrollView,
+  FlatList,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
@@ -42,7 +43,7 @@ const ItemPostCar = ({item}) => {
         <View style={STYLE.RowBetweenAlign}>
           <Text style={styles.instance}>{item.brand.name}</Text>
           <Text style={styles.priceCar}>
-            Giá: {formatCurrency(item.price)} VNĐ
+            Giá: {formatCurrency(item.price)}
           </Text>
         </View>
       </View>
@@ -53,10 +54,10 @@ const ItemPostCar = ({item}) => {
 const LeaseCar = () => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isDatePickerVisibleE, setDatePickerVisibilityE] = useState(false);
-  const [startDate, setStartDate] = useState('');
-  const [startMonth, setStartMonth] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [endMonth, setEndMonth] = useState('');
+  const [startDate, setStartDate] = useState((new Date().getDate()).toString().padStart(2, "0"));
+  const [startMonth, setStartMonth] = useState((new Date().getMonth() + 1).toString().padStart(2, "0"));
+  const [endDate, setEndDate] = useState((new Date().getDate() + 1).toString().padStart(2, "0"));
+  const [endMonth, setEndMonth] = useState((new Date().getMonth() + 1).toString().padStart(2, "0"));
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -83,10 +84,10 @@ const LeaseCar = () => {
     setEndMonth(moment(date).format('MM'));
   };
 
-  const intStartDate = parseFloat(startDate);
-  const intStartMonth = parseFloat(startMonth);
-  const intEndtDate = parseFloat(endDate);
-  const intEndMonth = parseFloat(endMonth);
+  const intStartDate = parseInt(startDate);
+  const intStartMonth = parseInt(startMonth);
+  const intEndtDate = parseInt(endDate);
+  const intEndMonth = parseInt(endMonth);
 
   // console.log('Kết quả: ', intEndtDate - intStartDate);
 
@@ -105,7 +106,6 @@ const LeaseCar = () => {
   } else if (intEndMonth > intStartMonth) {
     dateIntance = ndate[intStartMonth - 1] - intStartDate + intEndtDate;
   }
-  console.log('Kết quả: ', dateIntance);
 
   const {loading, error, data} = useQuery(GET_CAR);
   if (loading) {
@@ -163,11 +163,12 @@ const LeaseCar = () => {
         />
       </View>
       <View style={styles.containerListCar}>
-        <ScrollView>
-          {data.cars.map(item => (
-            <ItemPostCar item={item} />
-          ))}
-        </ScrollView>
+        <FlatList
+          data={data.cars}
+          style={styles.containerListPost}
+          keyExtractor={item => item.id}
+          renderItem={item => <ItemPostCar item={item.item} />}
+        />
       </View>
     </View>
   );

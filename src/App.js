@@ -12,6 +12,7 @@ import AppContainer from './common/navigation/index';
 import {ApolloProvider} from '@apollo/client';
 import {Provider} from 'react-redux';
 import store from './common/redux/store';
+import Toast from 'react-native-toast-message';
 
 import {client} from './service/graphql';
 
@@ -20,6 +21,7 @@ const App = () => {
     <ApolloProvider client={client}>
       <Provider store={store}>
         <AppContainer />
+        <Toast ref={(ref) => Toast.setRef(ref)} />
       </Provider>
     </ApolloProvider>
   );

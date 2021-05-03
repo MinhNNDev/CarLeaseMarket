@@ -21,7 +21,6 @@ import {GET_CAR} from '../../service/graphql/queries/cars';
 
 const ItemPostCar = ({item}) => {
   const navigation = useNavigation();
-  console.log(item.item);
   return (
     <TouchableOpacity
       onPress={() => navigation.navigate('Details', {item})}
@@ -38,7 +37,7 @@ const ItemPostCar = ({item}) => {
         <Text style={styles.nameCar}>{item.title}</Text>
         <View style={STYLE.RowBetweenAlign}>
           <Text style={styles.instance}>{item.brand.name}</Text>
-          <Text style={styles.priceCar}>Giá: {item.price} VNĐ</Text>
+          <Text style={styles.priceCar}>Giá: {formatCurrency(item.price)}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -65,7 +64,7 @@ const ListPostCar = ({navigation}) => {
   return (
     <View style={STYLE.container}>
       <Header
-        title="Danh sách bài đăng"
+        title="Xe đã đăng"
         iconbar
         icon="form"
         onPress={() => navigation.navigate('PostCar')}
@@ -73,6 +72,7 @@ const ListPostCar = ({navigation}) => {
       <FlatList
         data={data.cars}
         style={styles.containerListPost}
+        keyExtractor={item => item.id}
         renderItem={item => <ItemPostCar item={item.item} />}
         ListEmptyComponent={
           <>

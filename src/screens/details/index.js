@@ -40,6 +40,7 @@ const DetailsCar = ({navigation, route}) => {
             horizontal
             pagingEnabled
             data={item.images}
+            keyExtractor={(item) => item.index}
             renderItem={image => {
               return (
                 <Image
