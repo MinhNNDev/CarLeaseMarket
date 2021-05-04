@@ -33,7 +33,7 @@ const authreducer = (state = newAuth, action) => {
         isLoggedIn: true,
         user: action.payload,
       };
-      axios.defaults.headers.common.Authorization = `Bearer ${action.payload.jwttoken}`;
+      axios.defaults.headers.common.Authorization = `Bearer ${action.payload.jwt}`;
       AsyncStorage.setItem('auth', JSON.stringify(newAuthState));
       return newAuthState;
 
@@ -54,7 +54,7 @@ const authreducer = (state = newAuth, action) => {
         isLoggedIn: true,
         user: action.payload,
       };
-      axios.defaults.headers.common.Authorization = `Bearer ${action.payload.jwttoken}`;
+      axios.defaults.headers.common.Authorization = `Bearer ${action.payload.jwt}`;
       AsyncStorage.setItem('auth', JSON.stringify(loginAuthState));
       return loginAuthState;
 

@@ -56,11 +56,11 @@ const PostCar = () => {
     // TODO: Validate dữ liệu đầu vào
 
     // Tên xe
-    if (!infoCar.name || infoCar.name.trim().length < 10) {
+    if (!infoCar.name || infoCar.name.trim().length < 5) {
       Toast.show({
         type: 'error',
         text1: 'Lỗi rồiiiiii',
-        text2: 'Bạn ơi, tên của xe ít nhất phải có 10 kí tự nhé 😅!',
+        text2: 'Bạn ơi, tên của xe ít nhất phải có 5 kí tự nhé 😅!',
       });
       return;
     }
@@ -76,11 +76,11 @@ const PostCar = () => {
     }
 
     // Mô tả xe
-    if (!infoCar.desc || infoCar.desc.trim().length < 10) {
+    if (!infoCar.desc || infoCar.desc.trim().length < 5) {
       Toast.show({
         type: 'error',
         text1: 'Lỗi rồiiiiii',
-        text2: 'Bạn ơi, mô tả của xe ít nhất phải có 10 kí tự nhé 😅!',
+        text2: 'Bạn ơi, mô tả của xe ít nhất phải có 5 kí tự nhé 😅!',
       });
       return;
     }
@@ -140,7 +140,8 @@ const PostCar = () => {
     axios
       .request({
         method: 'post',
-        url: 'http://45.119.212.43:1337/upload',
+        baseURL: 'http://45.119.212.43:1337',
+        url: '/upload',
         headers: {'Content-Type': 'multipart/form-data'},
         data: imagesData,
         // State lưu tiến độ tải ảnh lên hệ thống
@@ -149,18 +150,23 @@ const PostCar = () => {
       .then(response => {
         if (response.status === 200) {
           axios
-            .post('http://45.119.212.43:1337/cars', {
-              title: infoCar.name,
-              price: parseInt(infoCar.price, 10),
-              brand: '60818bdc846210352069d679',
-              description: infoCar.desc,
-              year: infoCar.year,
-              gear: 'manual',
-              fuel: 'gasoline',
-              fuelCapacity: parseFloat(infoCar.fuelCap),
-              seats: parseInt(infoCar.seats, 10),
-              classification: 'Sedan',
-              images: response.data.map(image => image.id),
+            .request({
+              method: 'post',
+              baseURL: 'http://45.119.212.43:1337',
+              url: '/cars',
+              data: {
+                title: infoCar.name,
+                price: parseInt(infoCar.price, 10),
+                brand: '60818bdc846210352069d679',
+                description: infoCar.desc,
+                year: infoCar.year,
+                gear: 'manual',
+                fuel: 'gasoline',
+                fuelCapacity: parseFloat(infoCar.fuelCap),
+                seats: parseInt(infoCar.seats, 10),
+                classification: 'Sedan',
+                images: response.data.map(image => image.id),
+              },
             })
             .then(res => {
               // TODO: Đăng xe lên hệ thống thành công, làm gì đó để hiển thị giao diện

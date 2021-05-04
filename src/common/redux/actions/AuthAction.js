@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://45.119.212.43:1337/auth/local';
+axios.defaults.baseURL = 'http://45.119.212.43:1337';
 
 const AuthActionType = {
   REGISTER_SUCCESS: 'REGISTER_SUCCESS',
@@ -18,7 +18,7 @@ const RegisterAuthAction = (userState, navigation, setErrorHandler) => {
         identifier: userState.phone,
         password: userState.password,
       };
-      const res = await axios.post('/', data_form);
+      const res = await axios.post('/auth/local/register', data_form);
       const {data} = res;
       dispatch({type: AuthActionType.REGISTER_SUCCESS, payload: data});
       navigation.navigate('Home');
@@ -44,7 +44,7 @@ const LoginAuthAction = (loginState, navigation, setErrorHandler) => {
         identifier: loginState.phone,
         password: loginState.password,
       };
-      const res = await axios.post('/', data_form);
+      const res = await axios.post('/auth/local', data_form);
       const {data} = res;
       dispatch({type: AuthActionType.LOGIN_SUCCESS, payload: data});
       navigation.navigate('Home');
