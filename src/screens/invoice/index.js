@@ -21,6 +21,9 @@ const Invoice = ({navigation, route}) => {
       'Đặt xe thành công',
       'Chúng tôi sẽ xác nhận thông tin và gửi thông tin liên hệ cho bạn',
     );
+    setTimeout(() => {
+      navigation.goBack();
+    }, 3000);
   };
 
   return (
