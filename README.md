@@ -21,11 +21,10 @@ git clone https://github.com/MinhNNDev/CarLeaseMarket
     npm run android
     ```
 4. Hoàn thành và sử dụng ứng dụng
-Xoá Cache: ```cd android && ./gradlew clean && cd .. ```
 
-Khi cần lấy file APK: ```cd android && ./gradlew assembleRelease && cd ..```
-
-File APK sẽ ở trong thư mục: ```MyProject/android/app/build/outputs/apk/release```
+- Xoá Cache: ```cd android && ./gradlew clean && cd .. ```
+- Khi cần lấy file APK: ```cd android && ./gradlew assembleRelease && cd ..```
+  File APK sẽ ở trong thư mục: ```MyProject/android/app/build/outputs/apk/release```
 
 ### Contributors
 [MinhNNdev](https://github.com/MinhNNDev)
