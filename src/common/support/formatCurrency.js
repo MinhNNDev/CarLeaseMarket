@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  Text,
-} from 'react-native';
+import {Text} from 'react-native';
 import NumberFormat from 'react-number-format';
 
 export const formatCurrency = price => {
@@ -11,8 +9,9 @@ export const formatCurrency = price => {
       displayType={'text'}
       thousandSeparator={'.'}
       decimalSeparator={','}
-      suffix={' đ/ngày'}
-      renderText={formattedValue => <Text style={{fontSize: 16}}>{formattedValue}</Text>}
+      renderText={formattedValue => (
+        <Text style={{fontSize: 16}}>{formattedValue}</Text>
+      )}
     />
   );
 };

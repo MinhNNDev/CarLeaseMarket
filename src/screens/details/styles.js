@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {COLORS, SIZES} from '../../utils/Theme';
+import {COLORS, SIZES, STYLE} from '../../utils/Theme';
 export const styles = StyleSheet.create({
   bannerDetailCar: {
     width: SIZES.width,
@@ -41,6 +41,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   iconInfo: {
+    flex: 1,
     flexDirection: 'row',
     paddingVertical: 5,
   },

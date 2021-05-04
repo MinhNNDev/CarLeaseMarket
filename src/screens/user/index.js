@@ -24,6 +24,10 @@ const About = ({route}) => {
               <Text style={styles.content}>{auth.user.user.username}</Text>
             </View>
             <View style={styles.infoBar}>
+              <Text style={styles.title}>Tên người dùng:</Text>
+              <Text style={styles.content}>{auth.user.user.fullname}</Text>
+            </View>
+            <View style={styles.infoBar}>
               <Text style={styles.title}>Số điện thoại:</Text>
               <Text style={styles.content}>{auth.user.user.phone}</Text>
             </View>

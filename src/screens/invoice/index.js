@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, Alert} from 'react-native';
 import {Header} from '../../common/components';
 import {formatCurrency} from '../../common/support/formatCurrency';
 import {COLORS, SIZES} from '../../utils/Theme';
@@ -15,6 +15,14 @@ const InfoBar = props => {
 
 const Invoice = ({navigation, route}) => {
   const {item, dateIntance} = route.params;
+
+  const handelInvoice = () => {
+    Alert.alert(
+      'Đặt xe thành công',
+      'Chúng tôi sẽ xác nhận thông tin và gửi thông tin liên hệ cho bạn',
+    );
+  };
+
   return (
     <>
       <Header back title="Xác nhận đặt xe" />
@@ -55,14 +63,16 @@ const Invoice = ({navigation, route}) => {
             )}
           />
           <InfoBar
-            title="Tiền thanh toán cho chủ xe"
+            title="Thanh toán cho chủ xe"
             price={formatCurrency(
               item.price * dateIntance -
                 parseFloat((item.price * dateIntance * 30) / 100),
             )}
           />
         </View>
-        <TouchableOpacity style={styles.buttonConfirmInvoice}>
+        <TouchableOpacity
+          onPress={handelInvoice}
+          style={styles.buttonConfirmInvoice}>
           <Text style={styles.txtButton}>Thanh toán</Text>
           <Text style={styles.txtDescButton}>
             Ứng dụng và chủ xe sẽ liên hệ sớm đến bạn

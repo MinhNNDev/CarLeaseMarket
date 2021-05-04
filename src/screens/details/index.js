@@ -7,6 +7,8 @@ import {
   ScrollView,
   FlatList,
 } from 'react-native';
+import {connect} from 'react-redux';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Header} from '../../common/components';
 import {COLORS, STYLE} from '../../utils/Theme';
@@ -28,7 +30,11 @@ const InfoCar = props => {
   );
 };
 
-const DetailsCar = ({navigation, route}) => {
+const DetailsCar = props => {
+  const {auth} = props;
+  console.log(auth);
+  const navigation = useNavigation();
+  const route = useRoute();
   const {item, dateIntance} = route.params;
 
   return (
@@ -40,7 +46,8 @@ const DetailsCar = ({navigation, route}) => {
             horizontal
             pagingEnabled
             data={item.images}
-            keyExtractor={(item) => item.index}
+            // eslint-disable-next-line no-shadow
+            keyExtractor={item => item.index}
             renderItem={image => {
               return (
                 <Image
@@ -61,7 +68,9 @@ const DetailsCar = ({navigation, route}) => {
             </View>
 
             <View style={styles.infoGeneral}>
-              <Text style={styles.member}>Nguyen Ngoc Minh</Text>
+              <Text style={styles.member}>
+                {auth.isLoggedIn ? auth.user.user.fullname : '...'}
+              </Text>
               <Text style={styles.desc}>{item.description}</Text>
             </View>
             <View style={styles.infoDetails}>
@@ -97,7 +106,7 @@ const DetailsCar = ({navigation, route}) => {
                 info="Bằng lái B1/B2/C"
               />
             </View>
-            <View>
+            <View style={STYLE.flexScreen}>
               <Text style={styles.title}>Thế chấp khi nhận xe</Text>
               <InfoCar
                 nameIcon="ios-checkmark-circle"
@@ -114,22 +123,23 @@ const DetailsCar = ({navigation, route}) => {
                 color={COLORS.success}
                 info="Bằng lái B1/B2/C"
               />
-            </View>
-            <View>
-              <Text style={styles.title}>Giới hạn về quãng đường</Text>
-              <InfoCar
-                nameIcon="ios-checkmark-circle"
-                color={COLORS.warring}
-                info="300km/ngày, + 10.000/km (khi S > 300km)"
-              />
-            </View>
-            <View>
-              <Text style={styles.title}>Giao xe tận nơi</Text>
-              <InfoCar
-                nameIcon="ios-checkmark-circle"
-                color={COLORS.warring}
-                info="Miễn phí trong bán kính 5km, + 10.000/km (khi S > 5km) "
-              />
+
+              <View>
+                <Text style={styles.title}>Giới hạn về quãng đường</Text>
+                <InfoCar
+                  nameIcon="ios-checkmark-circle"
+                  color={COLORS.warring}
+                  info="300km/ngày, + 10.000/km (khi S > 300km)"
+                />
+              </View>
+              <View>
+                <Text style={styles.title}>Giao xe tận nơi</Text>
+                <InfoCar
+                  nameIcon="ios-checkmark-circle"
+                  color={COLORS.warring}
+                  info="Miễn phí trong bán kính 5km, + 10.000/km (khi S > 5km) "
+                />
+              </View>
             </View>
           </View>
         </View>
@@ -143,5 +153,10 @@ const DetailsCar = ({navigation, route}) => {
     </View>
   );
 };
+const mapStateToProps = state => {
+  return {
+    auth: state.authState,
+  };
+};
 
-export default DetailsCar;
+export default connect(mapStateToProps)(DetailsCar);

@@ -60,7 +60,7 @@ const PostCar = () => {
       Toast.show({
         type: 'error',
         text1: 'Lỗi rồiiiiii',
-        text2: 'Bạn ơi, tên của xe ít nhất phải có 10 kí tự nhé 😅!'
+        text2: 'Bạn ơi, tên của xe ít nhất phải có 10 kí tự nhé 😅!',
       });
       return;
     }
@@ -70,7 +70,7 @@ const PostCar = () => {
       Toast.show({
         type: 'error',
         text1: 'Lỗi rồiiiiii',
-        text2: 'Bạn ơi, giá cho thuê tối thiểu phải là 1.000vnđ 😅!'
+        text2: 'Bạn ơi, giá cho thuê tối thiểu phải là 1.000vnđ 😅!',
       });
       return;
     }
@@ -80,17 +80,21 @@ const PostCar = () => {
       Toast.show({
         type: 'error',
         text1: 'Lỗi rồiiiiii',
-        text2: 'Bạn ơi, mô tả của xe ít nhất phải có 10 kí tự nhé 😅!'
+        text2: 'Bạn ơi, mô tả của xe ít nhất phải có 10 kí tự nhé 😅!',
       });
       return;
     }
 
     // Năm sản xuất
-    if (!infoCar.year || parseInt(infoCar.year) < 1900 || parseInt(infoCar.year) > new Date().getFullYear() + 2) {
+    if (
+      !infoCar.year ||
+      parseInt(infoCar.year) < 1900 ||
+      parseInt(infoCar.year) > new Date().getFullYear() + 2
+    ) {
       Toast.show({
         type: 'error',
         text1: 'Lỗi rồiiiiii',
-        text2: 'Bạn ơi, năm sản xuất không hợp lệ rồi 😅!'
+        text2: 'Bạn ơi, năm sản xuất không hợp lệ rồi 😅!',
       });
       return;
     }
@@ -100,17 +104,17 @@ const PostCar = () => {
       Toast.show({
         type: 'error',
         text1: 'Lỗi rồiiiiii',
-        text2: 'Bạn ơi, dung tích bình nhiên liệu không hợp lệ rồi 😅!'
+        text2: 'Bạn ơi, dung tích bình nhiên liệu không hợp lệ rồi 😅!',
       });
       return;
     }
 
-     // Số chỗ ngồi
-     if (!infoCar.seats || parseInt(infoCar.seats) < 1) {
+    // Số chỗ ngồi
+    if (!infoCar.seats || parseInt(infoCar.seats) < 1) {
       Toast.show({
         type: 'error',
         text1: 'Lỗi rồiiiiii',
-        text2: 'Bạn ơi, số chỗ ngồi chưa hợp lệ kìa 😅!'
+        text2: 'Bạn ơi, số chỗ ngồi chưa hợp lệ kìa 😅!',
       });
       return;
     }
@@ -120,9 +124,9 @@ const PostCar = () => {
     Toast.show({
       type: 'info',
       text1: 'Đợi chút xíu',
-      text2: 'Chúng tôi đang tải thông tin xe của bạn lên, vui lòng đợi trong giây lát !'
+      text2:
+        'Chúng tôi đang tải thông tin xe của bạn lên, vui lòng đợi trong giây lát !',
     });
-
 
     let imagesData = new FormData();
     Array.from(images).forEach(image => {
@@ -145,31 +149,31 @@ const PostCar = () => {
       .then(response => {
         if (response.status === 200) {
           axios
-          .post('http://45.119.212.43:1337/cars', {
-            title: infoCar.name,
-            price: parseInt(infoCar.price, 10),
-            brand: '60818bdc846210352069d679',
-            description: infoCar.desc,
-            year: infoCar.year,
-            gear: 'manual',
-            fuel: 'gasoline',
-            fuelCapacity: parseFloat(infoCar.fuelCap),
-            seats: parseInt(infoCar.seats, 10),
-            classification: 'Sedan',
-            images: response.data.map(image => image.id)
-          })
-          .then(res => {
-            // TODO: Đăng xe lên hệ thống thành công, làm gì đó để hiển thị giao diện
-            if (res.status === 200) {
-              Toast.hide();
-              Toast.show({
-                type: 'success',
-                text1: 'Chúc Mừng',
-                text2: 'Bạn đã đăng xe cho thuê thành công rồi 🎉🎉!'
-              });
-              navigation.navigate('Lease');
-            }
-          });
+            .post('http://45.119.212.43:1337/cars', {
+              title: infoCar.name,
+              price: parseInt(infoCar.price, 10),
+              brand: '60818bdc846210352069d679',
+              description: infoCar.desc,
+              year: infoCar.year,
+              gear: 'manual',
+              fuel: 'gasoline',
+              fuelCapacity: parseFloat(infoCar.fuelCap),
+              seats: parseInt(infoCar.seats, 10),
+              classification: 'Sedan',
+              images: response.data.map(image => image.id),
+            })
+            .then(res => {
+              // TODO: Đăng xe lên hệ thống thành công, làm gì đó để hiển thị giao diện
+              if (res.status === 200) {
+                Toast.hide();
+                Toast.show({
+                  type: 'success',
+                  text1: 'Chúc Mừng',
+                  text2: 'Bạn đã đăng xe cho thuê thành công rồi 🎉🎉!',
+                });
+                navigation.navigate('Lease');
+              }
+            });
         }
       })
       .catch(error => {

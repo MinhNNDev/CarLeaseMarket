@@ -6,14 +6,13 @@ import {
   Image,
   Alert,
   ActivityIndicator,
-  ScrollView,
   FlatList,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 
-import {useQuery, gql} from '@apollo/client';
+import {useQuery} from '@apollo/client';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import InputValue from '../../common/components/InputValue';
@@ -43,7 +42,7 @@ const ItemPostCar = ({item}) => {
         <View style={STYLE.RowBetweenAlign}>
           <Text style={styles.instance}>{item.brand.name}</Text>
           <Text style={styles.priceCar}>
-            Giá: {formatCurrency(item.price)}
+            Giá: {formatCurrency(item.price)} VND
           </Text>
         </View>
       </View>
@@ -54,10 +53,18 @@ const ItemPostCar = ({item}) => {
 const LeaseCar = () => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isDatePickerVisibleE, setDatePickerVisibilityE] = useState(false);
-  const [startDate, setStartDate] = useState((new Date().getDate()).toString().padStart(2, "0"));
-  const [startMonth, setStartMonth] = useState((new Date().getMonth() + 1).toString().padStart(2, "0"));
-  const [endDate, setEndDate] = useState((new Date().getDate() + 1).toString().padStart(2, "0"));
-  const [endMonth, setEndMonth] = useState((new Date().getMonth() + 1).toString().padStart(2, "0"));
+  const [startDate, setStartDate] = useState(
+    new Date().getDate().toString().padStart(2, '0'),
+  );
+  const [startMonth, setStartMonth] = useState(
+    (new Date().getMonth() + 1).toString().padStart(2, '0'),
+  );
+  const [endDate, setEndDate] = useState(
+    (new Date().getDate() + 1).toString().padStart(2, '0'),
+  );
+  const [endMonth, setEndMonth] = useState(
+    (new Date().getMonth() + 1).toString().padStart(2, '0'),
+  );
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -84,10 +91,10 @@ const LeaseCar = () => {
     setEndMonth(moment(date).format('MM'));
   };
 
-  const intStartDate = parseInt(startDate);
-  const intStartMonth = parseInt(startMonth);
-  const intEndtDate = parseInt(endDate);
-  const intEndMonth = parseInt(endMonth);
+  const intStartDate = parseInt(startDate, 10);
+  const intStartMonth = parseInt(startMonth, 10);
+  const intEndtDate = parseInt(endDate, 10);
+  const intEndMonth = parseInt(endMonth, 10);
 
   // console.log('Kết quả: ', intEndtDate - intStartDate);
 
@@ -97,7 +104,7 @@ const LeaseCar = () => {
     setEndMonth('--');
     Alert.alert('Ngoài thời gian cho phép', 'Hãy chọn lại ngày kết thúc');
   } else if (intStartMonth === intEndMonth) {
-    dateIntance = intEndtDate - intStartDate;
+    dateIntance = intEndtDate - intStartDate + 1;
     if (dateIntance < 0) {
       setEndDate('--');
       setEndMonth('--');

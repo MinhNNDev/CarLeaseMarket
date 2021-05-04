@@ -56,36 +56,32 @@ const Auth = props => {
       </View>
       <View style={styles.wrapper}>
         {tab === 0 && (
-          <>
-            <View style={styles.container}>
-              <Image
-                source={require('../../assets/img/logo.png')}
-                style={styles.logo}
-              />
-              <InputValue
-                onChangeText={phone =>
-                  setLoginState({...loginState, ...{phone}})
-                }
-                title="Số điện thoại"
-                icon="person"
-              />
-              <InputValue
-                onChangeText={password =>
-                  setLoginState({...loginState, ...{password}})
-                }
-                title="Mật khẩu"
-                icon="lock-closed"
-                isPassword
-              />
-              <TouchableOpacity
-                onPress={() => {
-                  login(loginState, navigation, setErrorHandler);
-                }}
-                style={styles.btnLog}>
-                <Text>ĐĂNG NHẬP</Text>
-              </TouchableOpacity>
-            </View>
-          </>
+          <View style={styles.container}>
+            <Image
+              source={require('../../assets/img/logo.png')}
+              style={styles.logo}
+            />
+            <InputValue
+              onChangeText={phone => setLoginState({...loginState, ...{phone}})}
+              title="Số điện thoại"
+              icon="person"
+            />
+            <InputValue
+              onChangeText={password =>
+                setLoginState({...loginState, ...{password}})
+              }
+              title="Mật khẩu"
+              icon="lock-closed"
+              isPassword
+            />
+            <TouchableOpacity
+              onPress={() => {
+                login(loginState, navigation, setErrorHandler);
+              }}
+              style={styles.btnLog}>
+              <Text>ĐĂNG NHẬP</Text>
+            </TouchableOpacity>
+          </View>
         )}
         {tab === 1 && (
           <View style={styles.container}>

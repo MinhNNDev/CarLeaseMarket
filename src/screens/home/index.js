@@ -75,7 +75,9 @@ const Home = props => {
                       <AntDesign name={item.item} size={25} />
                     </View>
                   </TouchableOpacity>
-                  <Text style={styles.toucdIconName}>{iconTitle[item.index]}</Text>
+                  <Text style={styles.toucdIconName}>
+                    {iconTitle[item.index]}
+                  </Text>
                 </View>
               );
             }}
