@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "568997994655",
+    "project_id": "car-lease-2b178",
+    "storage_bucket": "car-lease-2b178.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:568997994655:android:b7d9c4b5b3512cbb3d42aa",
+        "android_client_info": {
+          "package_name": "com.carleasemarket"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "568997994655-81k5klrg9g5m4sh0q5tpn4d7ct97p7qc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.carleasemarket",
+            "certificate_hash": "3b3a39b3912d8e1bb0e65bf187b0a5f92aafaad5"
+          }
+        },
+        {
+          "client_id": "568997994655-l1rpkt5t78vkr2f3sq70pracfrmaivtp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBo7duu56but6zBkp__SAAQjZnPxiW4lpw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "568997994655-l1rpkt5t78vkr2f3sq70pracfrmaivtp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

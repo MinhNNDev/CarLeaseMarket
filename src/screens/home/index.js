@@ -18,6 +18,7 @@ import {SIZES, STYLE} from '../../utils/Theme';
 import {styles} from './styles';
 
 const Header = props => {
+  const navigation = useNavigation();
   return (
     <>
       <View style={styles.header}>
@@ -29,9 +30,13 @@ const Header = props => {
           <Text>Xin chào, {props.phone}</Text>
         </View>
         <View style={STYLE.row}>
-          <AntDesign name="wallet" size={20} style={styles.iconHead} />
-          <AntDesign name="bells" size={20} style={styles.iconHead} />
-          <AntDesign name="setting" size={20} style={styles.iconHead} />
+          {/* <AntDesign name="wallet" size={20} style={styles.iconHead} /> */}
+          <TouchableOpacity onPress={() => navigation.navigate('Notify')}>
+            <AntDesign name="bells" size={20} style={styles.iconHead} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Setting')}>
+            <AntDesign name="setting" size={20} style={styles.iconHead} />
+          </TouchableOpacity>
         </View>
       </View>
     </>
@@ -70,7 +75,27 @@ const Home = props => {
             renderItem={(item, index) => {
               return (
                 <View style={styles.containerTouchIcon}>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      if (item.item === 'idcard') {
+                        navigation.navigate(
+                          `${auth.isLoggedIn ? 'Users' : 'Auth'}`,
+                        );
+                      }
+                      if (item.item === 'calendar') {
+                        navigation.navigate(
+                          `${auth.isLoggedIn ? 'History' : 'Auth'}`,
+                        );
+                      }
+                      if (item.item === 'barschart') {
+                        navigation.navigate(
+                          `${auth.isLoggedIn ? 'History' : 'Auth'}`,
+                        );
+                      }
+                      if (item.item === 'message1') {
+                        Linking.openURL('http://google.com');
+                      }
+                    }}>
                     <View style={styles.listTouchIcon}>
                       <AntDesign name={item.item} size={25} />
                     </View>
