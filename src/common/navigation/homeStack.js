@@ -4,14 +4,20 @@ import {createStackNavigator} from '@react-navigation/stack';
 import BaseTabs from './tabNavigation';
 
 import AuthScreen from '../../screens/auth/login';
-import LeaseScreen from '../../screens/leasecar/index';
-import DetailsCarScreen from '../../screens/details/index';
-import InvoiceSreen from '../../screens/invoice/index';
-import ListPostScreen from '../../screens/listpost/index';
-import PostCarScreen from '../../screens/postcar/index';
-import NotifyScreen from '../../screens/notify/index';
-import ExtendScreen from '../../screens/extend/index';
-import UsersSreens from '../../screens/user/index';
+import LeaseScreen from '../../screens/leasecar';
+import DetailsCarScreen from '../../screens/details';
+import InvoiceSreen from '../../screens/invoice';
+import ListPostScreen from '../../screens/listpost';
+import PostCarScreen from '../../screens/postcar';
+import NotifyScreen from '../../screens/notify';
+import ExtendScreen from '../../screens/extend';
+import UsersScreen from '../../screens/user';
+import HistoryScreen from '../../screens/history';
+
+import AboutSreen from '../../screens/options/AboutSreen';
+import PrivacySceen from '../../screens/options/PrivacySceen';
+import SettingScreen from '../../screens/options/SettingScreen';
+import SupportScreen from '../../screens/options/SupportScreen';
 
 const rootStack = createStackNavigator();
 
@@ -65,7 +71,32 @@ const RootStackScreen = () => {
       />
       <rootStack.Screen
         name="Users"
-        component={UsersSreens}
+        component={UsersScreen}
+        options={{headerShown: false}}
+      />
+      <rootStack.Screen
+        name="History"
+        component={HistoryScreen}
+        options={{headerShown: false}}
+      />
+      <rootStack.Screen
+        name="About"
+        component={AboutSreen}
+        options={{headerShown: false}}
+      />
+      <rootStack.Screen
+        name="Privacy"
+        component={PrivacySceen}
+        options={{headerShown: false}}
+      />
+      <rootStack.Screen
+        name="Setting"
+        component={SettingScreen}
+        options={{headerShown: false}}
+      />
+      <rootStack.Screen
+        name="Support"
+        component={SupportScreen}
         options={{headerShown: false}}
       />
     </rootStack.Navigator>

@@ -22,7 +22,7 @@ git clone https://github.com/MinhNNDev/CarLeaseMarket
     ```
 4. Hoàn thành và sử dụng ứng dụng
 
-Xoá Cache: ```cd android && ./gradlew clean cd .. ```
+Xoá Cache: ```cd android && ./gradlew clean && cd .. ```
 
 Khi cần lấy file APK: ```cd android && ./gradlew assembleRelease && cd ..```
 

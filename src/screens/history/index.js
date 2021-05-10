@@ -9,9 +9,9 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Header} from '../../common/components';
-import {SIZES, STYLE} from '../../utils/Theme';
+import {STYLE} from '../../utils/Theme';
 
-import {useQuery, gql} from '@apollo/client';
+import {useQuery} from '@apollo/client';
 
 import {styles} from './styles';
 import {formatCurrency} from '../../common/support/formatCurrency';
@@ -34,10 +34,7 @@ const ItemPostCar = ({item}) => {
       />
       <View style={styles.infoCarGen}>
         <Text style={styles.nameCar}>{item.title}</Text>
-        <View style={STYLE.RowBetweenAlign}>
-          <Text style={styles.instance}>{item.brand.name}</Text>
-          <Text style={styles.priceCar}>Giá: {formatCurrency(item.price)}</Text>
-        </View>
+        <Text style={styles.priceCar}>Giá: {formatCurrency(item.price)}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -62,12 +59,7 @@ const ListPostCar = ({navigation}) => {
   }
   return (
     <View style={STYLE.container}>
-      <Header
-        title="Xe đã đăng"
-        iconbar
-        icon="form"
-        onPress={() => navigation.navigate('PostCar')}
-      />
+      <Header title="Lịch sử thuê xe" back />
       <FlatList
         data={data.cars}
         style={styles.containerListPost}
@@ -80,10 +72,10 @@ const ListPostCar = ({navigation}) => {
               style={styles.imgNotifyEmpty}
             />
             <TouchableOpacity
-              onPress={() => navigation.navigate('PostCar')}
+              onPress={() => navigation.navigate('Lease')}
               style={styles.openPost}>
               <Text style={styles.txtNotify}>
-                Bạn chưa có bài đăng nào, đăng tin ngay
+                Bạn chưa thuê xe nào, thuê xe ngay
               </Text>
             </TouchableOpacity>
           </>

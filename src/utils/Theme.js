@@ -72,6 +72,10 @@ export const STYLE = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  textAlign: {
+    textAlign: 'center',
+    color: '#7f7b7b',
+  },
 });
 
 const appTheme = {COLORS, SIZES, FONTS, STYLE};

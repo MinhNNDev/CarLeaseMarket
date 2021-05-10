@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  ScrollView,
-  Image,
-  Linking,
-} from 'react-native';
+import {Text, View, TouchableOpacity, ScrollView, Image} from 'react-native';
 import {connect} from 'react-redux';
 import {LogOutAuthAction} from '../../common/redux/actions/AuthAction';
 import {useNavigation} from '@react-navigation/native';
@@ -26,7 +19,6 @@ const Icon = ({name}) => {
 };
 
 const OptionsBar = props => {
-  const navigation = useNavigation();
   return (
     <TouchableOpacity onPress={props.onPress}>
       <View style={styles.optionBar}>
@@ -68,33 +60,39 @@ const Extend = props => {
               })
             }
           />
-          {/* <OptionsBar icon="car" title="Lịch sử thuê xe" />
-          <OptionsBar icon="car" title="Lịch sử cho thuê xe" />
+          <OptionsBar
+            onPress={() => navigation.navigate('History')}
+            icon="car"
+            title="Lịch sử thuê xe"
+          />
+          {/*   <OptionsBar icon="car" title="Lịch sử cho thuê xe" />
           <OptionsBar icon="car" title="Quản lí thông tin xe" /> */}
         </View>
         <View style={styles.blockOptions}>
           <OptionsBar
-            // onPress={() => Linking.openURL('http://google.com')}
+            onPress={() => navigation.navigate('Support')}
             icon="customerservice"
             title="Hỗ trợ và tư vấn"
           />
           <OptionsBar
-            onPress={() =>
-              Linking.openURL('https://www.tiktok.com/legal/privacy-policy')
-            }
+            onPress={() => navigation.navigate('Privacy')}
             icon="lock"
             title="Chính sách CarLease"
           />
           <OptionsBar
-            // onPress={() => Linking.openURL('http://google.com')}
+            onPress={() => navigation.navigate('Support')}
             icon="Safety"
             title="Góp ý"
           />
         </View>
         <View style={styles.blockOptions}>
-          <OptionsBar icon="setting" title="Cài đặt" />
           <OptionsBar
-            // onPress={() => Linking.openURL('http://minhn.dev')}
+            onPress={() => navigation.navigate('Setting')}
+            icon="setting"
+            title="Cài đặt"
+          />
+          <OptionsBar
+            onPress={() => navigation.navigate('About')}
             icon="info"
             title="CarLease"
           />
