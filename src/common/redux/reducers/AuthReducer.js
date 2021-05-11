@@ -38,16 +38,13 @@ const authreducer = (state = newAuth, action) => {
       return newAuthState;
 
     case AuthActionType.LOGOUT_SUCCESS:
-      AsyncStorage.removeItem('auth');
-      return {
-        isLoggedIn: false,
-        user: {
-          identifier: '',
-          expires_at: '',
-          jwttoken: '',
-          authorities: [],
-        },
-      };
+      try {
+        AsyncStorage.removeItem('auth');
+        console.log('Data removed');
+      } catch (error) {
+        console.log(error);
+      }
+      return authState;
 
     case AuthActionType.LOGIN_SUCCESS:
       const loginAuthState = {

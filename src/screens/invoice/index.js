@@ -19,7 +19,7 @@ const Invoice = ({navigation, route}) => {
   const handelInvoice = () => {
     Alert.alert(
       'Đặt xe thành công',
-      'Chúng tôi sẽ xác nhận thông tin và gửi thông tin liên hệ cho bạn',
+      `Chúng tôi sẽ xác nhận thông tin và gửi thông tin liên hệ cho bạn\nĐịa chỉ nhận xe: ${item.address}, ${item.province}`,
     );
     setTimeout(() => {
       navigation.goBack();

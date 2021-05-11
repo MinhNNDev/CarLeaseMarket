@@ -14,11 +14,17 @@ const AuthActionType = {
 const RegisterAuthAction = (userState, navigation, setErrorHandler) => {
   return async dispatch => {
     try {
+      console.log(userState);
       const data_form = {
-        identifier: userState.phone,
+        username: userState.phone,
+        email: userState.email,
         password: userState.password,
       };
-      const res = await axios.post('/auth/local/register', data_form);
+      const res = await axios.post('/auth/local/register', {
+        username: userState.phone,
+        email: userState.email,
+        password: userState.password,
+      });
       const {data} = res;
       dispatch({type: AuthActionType.REGISTER_SUCCESS, payload: data});
       navigation.navigate('Home');

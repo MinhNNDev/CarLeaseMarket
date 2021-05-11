@@ -16,32 +16,35 @@ import {useQuery} from '@apollo/client';
 import {styles} from './styles';
 import {formatCurrency} from '../../common/support/formatCurrency';
 
-import {GET_CAR} from '../../service/graphql/queries/cars';
+import {GET_HISTORY} from '../../service/graphql/queries/rentals';
 
 const ItemPostCar = ({item}) => {
   const navigation = useNavigation();
+  console.log(item);
   return (
-    <TouchableOpacity
-      onPress={() => navigation.navigate('Details', {item})}
-      style={styles.containerItemCar}>
+    <TouchableOpacity style={styles.containerItemCar}>
       <Image
         source={{
           uri: `http://45.119.212.43:1337${
-            item.images.length > 0 ? item.images[0].url : ''
+            item.car.images.length > 0 ? item.car.images[0].url : ''
           }`,
         }}
         style={styles.bannerItemPostCar}
       />
       <View style={styles.infoCarGen}>
-        <Text style={styles.nameCar}>{item.title}</Text>
-        <Text style={styles.priceCar}>Giá: {formatCurrency(item.price)}</Text>
+        <Text style={styles.nameCar}>{item.car.title}</Text>
+        <View style={STYLE.RowBetweenAlign}>
+          <Text style={styles.instance}>{item.startDate}</Text>
+          <Text style={styles.instance}>{item.endDate}</Text>
+        </View>
+        <Text style={styles.instance}>{item.remarks}</Text>
       </View>
     </TouchableOpacity>
   );
 };
 
 const ListPostCar = ({navigation}) => {
-  const {loading, error, data} = useQuery(GET_CAR);
+  const {loading, error, data} = useQuery(GET_HISTORY);
   if (loading) {
     return (
       <View style={styles.container}>
@@ -57,11 +60,12 @@ const ListPostCar = ({navigation}) => {
       </View>
     );
   }
+  console.log(data);
   return (
     <View style={STYLE.container}>
       <Header title="Lịch sử thuê xe" back />
       <FlatList
-        data={data.cars}
+        data={data.rentals}
         style={styles.containerListPost}
         keyExtractor={item => item.id}
         renderItem={item => <ItemPostCar item={item.item} />}

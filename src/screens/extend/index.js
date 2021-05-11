@@ -42,7 +42,7 @@ const Extend = props => {
             style={styles.iconUser}
           />
           <Text style={styles.txtUser}>
-            {auth.isLoggedIn ? auth.user.user.phone : 'Đăng nhập/Đăng ký'}
+            {auth.isLoggedIn ? auth.user.user.username : 'Đăng nhập/Đăng ký'}
             {/*
             phone: Số điện thoại
             username: Tên người dùng

@@ -20,6 +20,7 @@ import {GET_CAR} from '../../service/graphql/queries/cars';
 
 const ItemPostCar = ({item}) => {
   const navigation = useNavigation();
+  console.log(item);
   return (
     <TouchableOpacity
       onPress={() => navigation.navigate('Details', {item})}
@@ -35,7 +36,7 @@ const ItemPostCar = ({item}) => {
       <View style={styles.infoCarGen}>
         <Text style={styles.nameCar}>{item.title}</Text>
         <View style={STYLE.RowBetweenAlign}>
-          <Text style={styles.instance}>{item.brand.name}</Text>
+          <Text style={styles.instance}>{item.province}</Text>
           <Text style={styles.priceCar}>Giá: {formatCurrency(item.price)}</Text>
         </View>
       </View>
@@ -55,41 +56,51 @@ const ListPostCar = ({navigation}) => {
   if (error) {
     console.error(error);
     return (
-      <View style={styles.container}>
-        <Text>Error :((</Text>
-      </View>
+      <>
+        <Header
+          title="Xe đã đăng"
+          iconbar
+          icon="form"
+          onPress={() => navigation.navigate('PostCar')}
+        />
+        <View style={styles.container}>
+          <Text>Error :((</Text>
+        </View>
+      </>
     );
   }
   return (
-    <View style={STYLE.container}>
+    <>
       <Header
         title="Xe đã đăng"
         iconbar
         icon="form"
         onPress={() => navigation.navigate('PostCar')}
       />
-      <FlatList
-        data={data.cars}
-        style={styles.containerListPost}
-        keyExtractor={item => item.id}
-        renderItem={item => <ItemPostCar item={item.item} />}
-        ListEmptyComponent={
-          <>
-            <Image
-              source={require('../../assets/img/post_vehicle_management.png')}
-              style={styles.imgNotifyEmpty}
-            />
-            <TouchableOpacity
-              onPress={() => navigation.navigate('PostCar')}
-              style={styles.openPost}>
-              <Text style={styles.txtNotify}>
-                Bạn chưa có bài đăng nào, đăng tin ngay
-              </Text>
-            </TouchableOpacity>
-          </>
-        }
-      />
-    </View>
+      <View style={STYLE.container}>
+        <FlatList
+          data={data.cars}
+          style={styles.containerListPost}
+          keyExtractor={item => item.id}
+          renderItem={item => <ItemPostCar item={item.item} />}
+          ListEmptyComponent={
+            <>
+              <Image
+                source={require('../../assets/img/post_vehicle_management.png')}
+                style={styles.imgNotifyEmpty}
+              />
+              <TouchableOpacity
+                onPress={() => navigation.navigate('PostCar')}
+                style={styles.openPost}>
+                <Text style={styles.txtNotify}>
+                  Bạn chưa có bài đăng nào, đăng tin ngay
+                </Text>
+              </TouchableOpacity>
+            </>
+          }
+        />
+      </View>
+    </>
   );
 };
 

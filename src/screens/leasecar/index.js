@@ -24,6 +24,7 @@ import {formatCurrency} from '../../common/support/formatCurrency';
 import {GET_CAR} from '../../service/graphql/queries/cars';
 var dateIntance = 0;
 const ItemPostCar = ({item}) => {
+  console.log(item);
   const navigation = useNavigation();
   return (
     <TouchableOpacity
@@ -40,7 +41,7 @@ const ItemPostCar = ({item}) => {
       <View style={styles.infoCarGen}>
         <Text style={styles.nameCar}>{item.title}</Text>
         <View style={STYLE.RowBetweenAlign}>
-          <Text style={styles.instance}>{item.brand.name}</Text>
+          <Text style={styles.instance}>{item.province}</Text>
           <Text style={styles.priceCar}>
             Giá: {formatCurrency(item.price)} VND
           </Text>
@@ -51,6 +52,11 @@ const ItemPostCar = ({item}) => {
 };
 
 const LeaseCar = () => {
+  // Search Fillter
+  const [search, setSearch] = useState('');
+  const [filteredData, setFilteredData] = useState([]);
+  const [masterData, setMasterData] = useState([]);
+  //----------------//
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isDatePickerVisibleE, setDatePickerVisibilityE] = useState(false);
   const [startDate, setStartDate] = useState(
@@ -115,6 +121,7 @@ const LeaseCar = () => {
   }
 
   const {loading, error, data} = useQuery(GET_CAR);
+
   if (loading) {
     return (
       <View style={styles.container}>
@@ -131,12 +138,38 @@ const LeaseCar = () => {
     );
   }
 
+  const searchFilterFunction = text => {
+    // Check if searched text is not blank
+    if (text) {
+      // Inserted text is not blank
+      // Filter the masterDataSource and update FilteredDataSource
+      const newData = masterData.filter(function (item) {
+        // Applying filter for the inserted text in search bar
+        const itemData = item.title
+          ? item.title.toUpperCase()
+          : ''.toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredData(newData);
+      setSearch(text);
+    } else {
+      // Inserted text is blank
+      // Update FilteredDataSource with masterDataSource
+      setFilteredData(masterData);
+      setSearch(text);
+    }
+  };
+
   return (
     <View style={STYLE.container}>
       <View style={styles.inpSearch}>
         <InputValue
           icon="location"
           placeholder="Nhập địa chỉ để tìm chính xác hơn..."
+          onChangeText={text => searchFilterFunction(text)}
+          value={search}
+          underlineColorAndroid="transparent"
         />
       </View>
 

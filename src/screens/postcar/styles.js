@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View} from 'react-native';
-import {COLORS, SIZES} from '../../utils/Theme';
+import {COLORS, SIZES, STYLE} from '../../utils/Theme';
 
 const IMAGE_WIDTH = (SIZES.width - 24) / 3;
 export const styles = StyleSheet.create({
@@ -82,5 +82,21 @@ export const styles = StyleSheet.create({
     borderColor: COLORS.primary,
     borderWidth: 1,
     borderRadius: 3,
+  },
+  addressCar: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  inputAddress: {
+    backgroundColor: '#f8f9fa',
+    borderColor: COLORS.gray,
+    borderWidth: 1,
+    borderRadius: 3,
+  },
+  location: {
+    width: (SIZES.width - 40) / 3 - 5,
+  },
+  province: {
+    width: ((SIZES.width - 40) * 2) / 3 - 5,
   },
 });

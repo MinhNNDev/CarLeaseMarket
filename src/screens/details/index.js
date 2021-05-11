@@ -140,6 +140,18 @@ const DetailsCar = props => {
                   info="Miễn phí trong bán kính 5km, + 10.000/km (khi S > 5km) "
                 />
               </View>
+
+              <View>
+                <Text style={styles.title}>
+                  Địa chỉ nhận xe (Sau khi đặt xe sẽ nhận được địa chỉ chính
+                  xác):
+                </Text>
+                <InfoCar
+                  nameIcon="ios-checkmark-circle"
+                  color={COLORS.warring}
+                  info={item.province}
+                />
+              </View>
             </View>
           </View>
         </View>

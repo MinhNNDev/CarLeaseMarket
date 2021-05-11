@@ -20,8 +20,8 @@ export const GET_CAR = gql`
       images {
         url
       }
-      createdAt
-      updatedAt
+      address
+      province
     }
   }
 `;

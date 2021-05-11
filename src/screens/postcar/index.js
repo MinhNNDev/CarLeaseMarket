@@ -30,6 +30,7 @@ const PostCar = () => {
   const [infoCar, setInfoCar] = useState({});
   const [uploadProgress, setUploadProgress] = useState(0);
 
+  console.log(infoCar);
   const openPicker = async () => {
     try {
       const response = await MultipleImagePicker.openPicker({
@@ -88,8 +89,8 @@ const PostCar = () => {
     // Năm sản xuất
     if (
       !infoCar.year ||
-      parseInt(infoCar.year) < 1900 ||
-      parseInt(infoCar.year) > new Date().getFullYear() + 2
+      parseInt(infoCar.yea, 10) < 1900 ||
+      parseInt(infoCar.year, 10) > new Date().getFullYear() + 2
     ) {
       Toast.show({
         type: 'error',
@@ -110,7 +111,7 @@ const PostCar = () => {
     }
 
     // Số chỗ ngồi
-    if (!infoCar.seats || parseInt(infoCar.seats) < 1) {
+    if (!infoCar.seats || parseInt(infoCar.seats, 10) < 1) {
       Toast.show({
         type: 'error',
         text1: 'Lỗi rồiiiiii',
@@ -161,6 +162,8 @@ const PostCar = () => {
               seats: parseInt(infoCar.seats, 10),
               classification: 'Sedan',
               images: response.data.map(image => image.id),
+              address: infoCar.address_location,
+              province: infoCar.address_province,
             })
             .then(res => {
               // TODO: Đăng xe lên hệ thống thành công, làm gì đó để hiển thị giao diện
@@ -173,6 +176,9 @@ const PostCar = () => {
                 });
                 navigation.navigate('Lease');
               }
+            })
+            .catch(err => {
+              console.error(err);
             });
         }
       })
@@ -276,6 +282,25 @@ const PostCar = () => {
               icon="car-outline"
               onChangeText={type => setInfoCar({...infoCar, ...{type}})}
             />
+            <View>
+              <Text style={styles.txtDesc}>Địa chỉ nhận xe: </Text>
+              <View style={styles.addressCar}>
+                <TextInput
+                  placeholder=" Xã/Thị trấn"
+                  style={[styles.inputAddress, styles.location]}
+                  onChangeText={address_location =>
+                    setInfoCar({...infoCar, ...{address_location}})
+                  }
+                />
+                <TextInput
+                  placeholder=" Huyện/Thành phố, Tỉnh "
+                  style={[styles.inputAddress, styles.province]}
+                  onChangeText={address_province =>
+                    setInfoCar({...infoCar, ...{address_province}})
+                  }
+                />
+              </View>
+            </View>
           </View>
           <View style={styles.mainPrice}>
             <Text style={styles.txtDesc}>Giá cho thuê xe của bạn: </Text>
