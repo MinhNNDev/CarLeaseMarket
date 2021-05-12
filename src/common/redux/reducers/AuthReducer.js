@@ -40,6 +40,7 @@ const authreducer = (state = newAuth, action) => {
     case AuthActionType.LOGOUT_SUCCESS:
       try {
         AsyncStorage.removeItem('auth');
+        delete axios.defaults.headers.common.Authorization;
         console.log('Data removed');
       } catch (error) {
         console.log(error);

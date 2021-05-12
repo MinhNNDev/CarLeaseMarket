@@ -3,6 +3,10 @@ import {StyleSheet, Text, View, TouchableOpacity, Alert} from 'react-native';
 import {Header} from '../../common/components';
 import {formatCurrency} from '../../common/support/formatCurrency';
 import {COLORS, SIZES} from '../../utils/Theme';
+import axios from 'axios';
+import Toast from 'react-native-toast-message';
+import {connect} from 'react-redux';
+import {useNavigation, useRoute} from '@react-navigation/native';
 
 const InfoBar = props => {
   return (
@@ -13,17 +17,71 @@ const InfoBar = props => {
   );
 };
 
-const Invoice = ({navigation, route}) => {
+const Invoice = props => {
+  const navigation = useNavigation();
+  const route = useRoute();
+
   const {item, dateIntance} = route.params;
+  const {auth} = props;
+
+  console.log('datePicker', dateIntance);
 
   const handelInvoice = () => {
-    Alert.alert(
-      'Đặt xe thành công',
-      `Chúng tôi sẽ xác nhận thông tin và gửi thông tin liên hệ cho bạn\nĐịa chỉ nhận xe: ${item.address}, ${item.province}`,
-    );
-    setTimeout(() => {
-      navigation.goBack();
-    }, 3000);
+    axios
+      .get('http://45.119.212.43:1337/cars/' + item.id)
+      .then(resVIP => {
+        if (resVIP.status === 200 && resVIP.data.isRentaled === false) {
+          axios
+            .post('http://45.119.212.43:1337/rentals', {
+              car: item.id,
+              customer: auth.user.user.id,
+              startDate: '2021-05-13',
+              endDate: '2021-05-14',
+              remarks: 'ghi chú thuê xe',
+            })
+            .then(res => {
+              if (res.status === 200) {
+                axios
+                  .put('http://45.119.212.43:1337/cars/' + item.id, {
+                    isRentaled: true,
+                  })
+                  .then(response => {
+                    Toast.hide();
+                    Toast.show({
+                      type: 'success',
+                      text1: 'Thành công',
+                    });
+                    Alert.alert(
+                      'Đặt xe thành công',
+                      `Chúng tôi sẽ xác nhận thông tin và gửi thông tin liên hệ cho bạn\nĐịa chỉ nhận xe: ${item.address}, ${item.province}`,
+                    );
+
+                    setTimeout(() => {
+                      navigation.goBack();
+                      navigation.goBack();
+                    }, 3000);
+                  })
+                  .catch(err => {
+                    console.error(err);
+                  });
+              }
+            })
+            .catch(err => {
+              console.error(err);
+              Toast.hide();
+              Toast.show({
+                type: 'error',
+                text1: 'Lỗi',
+                text2: 'Có lỗi xảy ra',
+              });
+            });
+        } else {
+          Alert.alert('Đặt xe không thành công', 'Xe đã được thuê rồi');
+        }
+      })
+      .catch(err => {
+        console.error(err);
+      });
   };
 
   return (
@@ -86,7 +144,13 @@ const Invoice = ({navigation, route}) => {
   );
 };
 
-export default Invoice;
+const mapStateToProps = state => {
+  return {
+    auth: state.authState,
+  };
+};
+
+export default connect(mapStateToProps)(Invoice);
 
 const styles = StyleSheet.create({
   container: {

@@ -31,7 +31,6 @@ const OptionsBar = props => {
 
 const Extend = props => {
   const {auth, logout} = props;
-  // console.log(logout);
   const navigation = useNavigation();
   return (
     <View style={styles.container}>

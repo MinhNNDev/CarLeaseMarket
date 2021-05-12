@@ -6,7 +6,6 @@ import {
   Text,
   TouchableOpacity,
   FlatList,
-  ScrollView,
   TextInput,
 } from 'react-native';
 import MultipleImagePicker from '@baronha/react-native-multiple-image-picker';
@@ -210,110 +209,116 @@ const PostCar = () => {
   return (
     <View style={STYLE.container}>
       <Header back title="Đăng xe" iconbar icon="save" onPress={handleSubmit} />
-      <ScrollView>
-        <View style={styles.main}>
-          <Text style={styles.title}>Chọn nhiều hình để bán chạy hơn</Text>
-          <FlatList
-            style={[styles.containerList]}
-            data={images}
-            keyExtractor={(item, index) =>
-              (item?.filename ?? item?.path) + index
-            }
-            renderItem={renderItem}
-            numColumns={3}
-            ListEmptyComponent={
-              <TouchableOpacity style={styles.openPicker} onPress={openPicker}>
-                <Ionicons name="camera-sharp" size={25} color="gray" />
-                <Text style={styles.subtext}> Thêm hình</Text>
-              </TouchableOpacity>
-            }
-          />
-          <View style={styles.form}>
-            <InputValue
-              placeholder="Tên xe"
-              icon="car"
-              onChangeText={name => setInfoCar({...infoCar, ...{name}})}
-            />
-            <Text style={styles.txtDesc}>Mô tả xe của bạn: </Text>
-            <TextInput
-              multiline
-              numberOfLines={5}
-              textAlignVertical="top"
-              style={styles.inputContent}
-              onChangeText={desc => setInfoCar({...infoCar, ...{desc}})}
-            />
-            <InputValue
-              placeholder="Năm sản xuất"
-              icon="today-outline"
-              onChangeText={year => setInfoCar({...infoCar, ...{year}})}
-            />
-            <InputValue
-              placeholder="Hãng sản xuất"
-              icon="shield-checkmark-outline"
-              onChangeText={brand => setInfoCar({...infoCar, ...{brand}})}
-            />
-            <InputValue
-              placeholder="Mã xe"
-              icon="pricetag-outline"
-              onChangeText={code => setInfoCar({...infoCar, ...{code}})}
-            />
-            <InputValue
-              placeholder="Hộp số (Tự động/Sàn)"
-              icon="ios-logo-ionic"
-              onChangeText={gear => setInfoCar({...infoCar, ...{gear}})}
-            />
-            <InputValue
-              placeholder="Nhiên liệu (Xăng/Dầu)"
-              icon="ios-flame-outline"
-              onChangeText={fuel => setInfoCar({...infoCar, ...{fuel}})}
-            />
-            <InputValue
-              placeholder="Dung tích nhiên liệu"
-              icon="pricetag-outline"
-              onChangeText={fuelCap => setInfoCar({...infoCar, ...{fuelCap}})}
-            />
-            <InputValue
-              placeholder="Số chỗ ngồi"
-              icon="people-outline"
-              onChangeText={seats => setInfoCar({...infoCar, ...{seats}})}
-            />
-            <InputValue
-              placeholder="Loại xe (SUV, Sedan...)"
-              icon="car-outline"
-              onChangeText={type => setInfoCar({...infoCar, ...{type}})}
-            />
-            <View>
-              <Text style={styles.txtDesc}>Địa chỉ nhận xe: </Text>
-              <View style={styles.addressCar}>
+      <View style={styles.main}>
+        <FlatList
+          style={[styles.containerList]}
+          data={images}
+          keyExtractor={(item, index) => (item?.filename ?? item?.path) + index}
+          renderItem={renderItem}
+          numColumns={3}
+          ListEmptyComponent={
+            <TouchableOpacity style={styles.openPicker} onPress={openPicker}>
+              <Ionicons name="camera-sharp" size={25} color="gray" />
+              <Text style={styles.subtext}> Thêm hình</Text>
+            </TouchableOpacity>
+          }
+          ListHeaderComponent={
+            <Text style={styles.title}>Chọn nhiều hình để bán chạy hơn</Text>
+          }
+          ListFooterComponent={
+            <>
+              <View style={styles.form}>
+                <InputValue
+                  placeholder="Tên xe"
+                  icon="car"
+                  onChangeText={name => setInfoCar({...infoCar, ...{name}})}
+                />
+                <Text style={styles.txtDesc}>Mô tả xe của bạn: </Text>
                 <TextInput
-                  placeholder=" Xã/Thị trấn"
-                  style={[styles.inputAddress, styles.location]}
-                  onChangeText={address_location =>
-                    setInfoCar({...infoCar, ...{address_location}})
+                  multiline
+                  numberOfLines={5}
+                  textAlignVertical="top"
+                  style={styles.inputContent}
+                  onChangeText={desc => setInfoCar({...infoCar, ...{desc}})}
+                />
+                <InputValue
+                  placeholder="Năm sản xuất"
+                  icon="today-outline"
+                  onChangeText={year => setInfoCar({...infoCar, ...{year}})}
+                />
+                <InputValue
+                  placeholder="Hãng sản xuất"
+                  icon="shield-checkmark-outline"
+                  onChangeText={brand => setInfoCar({...infoCar, ...{brand}})}
+                />
+                <InputValue
+                  placeholder="Mã xe"
+                  icon="pricetag-outline"
+                  onChangeText={code => setInfoCar({...infoCar, ...{code}})}
+                />
+                <InputValue
+                  placeholder="Hộp số (Tự động/Sàn)"
+                  icon="ios-logo-ionic"
+                  onChangeText={gear => setInfoCar({...infoCar, ...{gear}})}
+                />
+                <InputValue
+                  placeholder="Nhiên liệu (Xăng/Dầu)"
+                  icon="ios-flame-outline"
+                  onChangeText={fuel => setInfoCar({...infoCar, ...{fuel}})}
+                />
+                <InputValue
+                  placeholder="Dung tích nhiên liệu"
+                  icon="pricetag-outline"
+                  onChangeText={fuelCap =>
+                    setInfoCar({...infoCar, ...{fuelCap}})
                   }
                 />
+                <InputValue
+                  placeholder="Số chỗ ngồi"
+                  icon="people-outline"
+                  onChangeText={seats => setInfoCar({...infoCar, ...{seats}})}
+                />
+                <InputValue
+                  placeholder="Loại xe (SUV, Sedan...)"
+                  icon="car-outline"
+                  onChangeText={type => setInfoCar({...infoCar, ...{type}})}
+                />
+                <View>
+                  <Text style={styles.txtDesc}>Địa chỉ nhận xe: </Text>
+                  <View style={styles.addressCar}>
+                    <TextInput
+                      placeholder=" Xã/Thị trấn"
+                      style={[styles.inputAddress, styles.location]}
+                      onChangeText={address_location =>
+                        setInfoCar({...infoCar, ...{address_location}})
+                      }
+                    />
+                    <TextInput
+                      placeholder=" Huyện/Thành phố, Tỉnh "
+                      style={[styles.inputAddress, styles.province]}
+                      onChangeText={address_province =>
+                        setInfoCar({...infoCar, ...{address_province}})
+                      }
+                    />
+                  </View>
+                </View>
+              </View>
+              <View style={styles.mainPrice}>
+                <Text style={styles.txtDesc}>Giá cho thuê xe của bạn: </Text>
                 <TextInput
-                  placeholder=" Huyện/Thành phố, Tỉnh "
-                  style={[styles.inputAddress, styles.province]}
-                  onChangeText={address_province =>
-                    setInfoCar({...infoCar, ...{address_province}})
-                  }
+                  style={styles.inputPrice}
+                  onChangeText={price => setInfoCar({...infoCar, ...{price}})}
                 />
               </View>
-            </View>
-          </View>
-          <View style={styles.mainPrice}>
-            <Text style={styles.txtDesc}>Giá cho thuê xe của bạn: </Text>
-            <TextInput
-              style={styles.inputPrice}
-              onChangeText={price => setInfoCar({...infoCar, ...{price}})}
-            />
-          </View>
-          <TouchableOpacity style={styles.buttonSave} onPress={handleSubmit}>
-            <Text style={styles.subtext}>Đăng bài</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+              <TouchableOpacity
+                style={styles.buttonSave}
+                onPress={handleSubmit}>
+                <Text style={styles.subtext}>Đăng bài</Text>
+              </TouchableOpacity>
+            </>
+          }
+        />
+      </View>
     </View>
   );
 };

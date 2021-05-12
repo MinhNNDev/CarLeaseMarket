@@ -1,5 +1,5 @@
-import {StyleSheet, Text, View} from 'react-native';
-import {COLORS, SIZES, STYLE} from '../../utils/Theme';
+import {StyleSheet} from 'react-native';
+import {COLORS, SIZES} from '../../utils/Theme';
 
 const IMAGE_WIDTH = (SIZES.width - 24) / 3;
 export const styles = StyleSheet.create({
@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
     paddingTop: 10,
   },
   main: {
-    marginVertical: 20,
+    flex: 1,
   },
   title: {
     marginHorizontal: 20,
@@ -62,6 +62,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: 20,
   },
   form: {
     margin: 20,

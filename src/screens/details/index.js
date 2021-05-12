@@ -32,7 +32,6 @@ const InfoCar = props => {
 
 const DetailsCar = props => {
   const {auth} = props;
-  console.log(auth);
   const navigation = useNavigation();
   const route = useRoute();
   const {item, dateIntance} = route.params;

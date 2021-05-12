@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Text,
   View,
@@ -23,33 +23,6 @@ import {formatCurrency} from '../../common/support/formatCurrency';
 
 import {GET_CAR} from '../../service/graphql/queries/cars';
 var dateIntance = 0;
-const ItemPostCar = ({item}) => {
-  console.log(item);
-  const navigation = useNavigation();
-  return (
-    <TouchableOpacity
-      onPress={() => navigation.navigate('Details', {item, dateIntance})}
-      style={styles.containerItemCar}>
-      <Image
-        source={{
-          uri: `http://45.119.212.43:1337${
-            item.images.length > 0 ? item.images[0].url : ''
-          }`,
-        }}
-        style={styles.bannerItemPostCar}
-      />
-      <View style={styles.infoCarGen}>
-        <Text style={styles.nameCar}>{item.title}</Text>
-        <View style={STYLE.RowBetweenAlign}>
-          <Text style={styles.instance}>{item.province}</Text>
-          <Text style={styles.priceCar}>
-            Giá: {formatCurrency(item.price)} VND
-          </Text>
-        </View>
-      </View>
-    </TouchableOpacity>
-  );
-};
 
 const LeaseCar = () => {
   // Search Fillter
@@ -102,8 +75,6 @@ const LeaseCar = () => {
   const intEndtDate = parseInt(endDate, 10);
   const intEndMonth = parseInt(endMonth, 10);
 
-  // console.log('Kết quả: ', intEndtDate - intStartDate);
-
   var ndate = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   if (intEndMonth - intStartMonth > 6) {
     setEndDate('--');
@@ -121,7 +92,12 @@ const LeaseCar = () => {
   }
 
   const {loading, error, data} = useQuery(GET_CAR);
-
+  useEffect(() => {
+    if (!loading && data) {
+      setFilteredData(data.cars);
+      setMasterData(data.cars);
+    }
+  }, [loading, data]);
   if (loading) {
     return (
       <View style={styles.container}>
@@ -138,13 +114,45 @@ const LeaseCar = () => {
     );
   }
 
+  const ItemPostCar = ({item}) => {
+    const navigation = useNavigation();
+    return (
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate('Details', {
+            item,
+            dateIntance,
+            startDate,
+            startMonth,
+            endDate,
+            endMonth,
+          })
+        }
+        style={styles.containerItemCar}>
+        <Image
+          source={{
+            uri: `http://45.119.212.43:1337${
+              item.images.length > 0 ? item.images[0].url : ''
+            }`,
+          }}
+          style={styles.bannerItemPostCar}
+        />
+        <View style={styles.infoCarGen}>
+          <Text style={styles.nameCar}>{item.title}</Text>
+          <View style={STYLE.RowBetweenAlign}>
+            <Text style={styles.instance}>{item.province}</Text>
+            <Text style={styles.priceCar}>
+              Giá: {formatCurrency(item.price)} VND
+            </Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
   const searchFilterFunction = text => {
-    // Check if searched text is not blank
     if (text) {
-      // Inserted text is not blank
-      // Filter the masterDataSource and update FilteredDataSource
       const newData = masterData.filter(function (item) {
-        // Applying filter for the inserted text in search bar
         const itemData = item.title
           ? item.title.toUpperCase()
           : ''.toUpperCase();
@@ -154,8 +162,6 @@ const LeaseCar = () => {
       setFilteredData(newData);
       setSearch(text);
     } else {
-      // Inserted text is blank
-      // Update FilteredDataSource with masterDataSource
       setFilteredData(masterData);
       setSearch(text);
     }
@@ -204,7 +210,7 @@ const LeaseCar = () => {
       </View>
       <View style={styles.containerListCar}>
         <FlatList
-          data={data.cars}
+          data={filteredData}
           style={styles.containerListPost}
           keyExtractor={item => item.id}
           renderItem={item => <ItemPostCar item={item.item} />}

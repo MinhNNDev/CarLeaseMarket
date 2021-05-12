@@ -2,7 +2,7 @@ import {gql} from '@apollo/client';
 
 export const GET_CAR = gql`
   query GetListCars {
-    cars {
+    cars(where: {isRentaled: false}) {
       id
       title
       description
@@ -20,6 +20,7 @@ export const GET_CAR = gql`
       images {
         url
       }
+      isRentaled
       address
       province
     }

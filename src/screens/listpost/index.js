@@ -9,10 +9,8 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Header} from '../../common/components';
-import {SIZES, STYLE} from '../../utils/Theme';
-
-import {useQuery, gql} from '@apollo/client';
-
+import {STYLE} from '../../utils/Theme';
+import {useQuery} from '@apollo/client';
 import {styles} from './styles';
 import {formatCurrency} from '../../common/support/formatCurrency';
 
@@ -20,7 +18,6 @@ import {GET_CAR} from '../../service/graphql/queries/cars';
 
 const ItemPostCar = ({item}) => {
   const navigation = useNavigation();
-  console.log(item);
   return (
     <TouchableOpacity
       onPress={() => navigation.navigate('Details', {item})}

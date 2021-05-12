@@ -17,14 +17,12 @@ const RegisterAuthAction = (userState, navigation, setErrorHandler) => {
       console.log(userState);
       const data_form = {
         username: userState.phone,
-        email: userState.email,
+        email: userState.phone + '@gmail.com',
         password: userState.password,
+        phone: userState.phone,
+        fullname: 'Người dùng',
       };
-      const res = await axios.post('/auth/local/register', {
-        username: userState.phone,
-        email: userState.email,
-        password: userState.password,
-      });
+      const res = await axios.post('/auth/local/register', data_form);
       const {data} = res;
       dispatch({type: AuthActionType.REGISTER_SUCCESS, payload: data});
       navigation.navigate('Home');

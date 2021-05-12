@@ -7,20 +7,16 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 import {Header} from '../../common/components';
 import {STYLE} from '../../utils/Theme';
 
 import {useQuery} from '@apollo/client';
 
 import {styles} from './styles';
-import {formatCurrency} from '../../common/support/formatCurrency';
 
 import {GET_HISTORY} from '../../service/graphql/queries/rentals';
 
 const ItemPostCar = ({item}) => {
-  const navigation = useNavigation();
-  console.log(item);
   return (
     <TouchableOpacity style={styles.containerItemCar}>
       <Image
@@ -60,7 +56,6 @@ const ListPostCar = ({navigation}) => {
       </View>
     );
   }
-  console.log(data);
   return (
     <View style={STYLE.container}>
       <Header title="Lịch sử thuê xe" back />
